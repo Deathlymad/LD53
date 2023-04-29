@@ -471,44 +471,50 @@ public class MapHandler : MonoBehaviour
             {
                 if (e.v1 == node.node && !closedList.Contains(e.v2))
                 {
+                    float wgh = e.f;
+                    if (res.Contains(e.v2))
+                        wgh -= 100;//handle previous used paths here
                     if (openList.Select(x => x.node).Contains(e.v2))
                     {
                         int toDelete = -1;
                         for (int i = 0; i < openList.Count; i++)
                         {
-                            if (openList[i].node == e.v2 && (e.f + node.f) < openList[i].f)
+                            if (openList[i].node == e.v2 && (wgh + node.f) < openList[i].f)
                                 toDelete = i;
                         }
                         if (toDelete > 0)
                         {
                             openList.RemoveAt(toDelete);
-                            openList.Insert(toDelete, new NavNode(e.v2, e.f + node.f, node));
+                            openList.Insert(toDelete, new NavNode(e.v2, wgh + node.f, node));
                         }
                     }
                     else
                     {
-                        openList.Insert(openList.Count, new NavNode(e.v2, e.f + node.f, node));
+                        openList.Insert(openList.Count, new NavNode(e.v2, wgh + node.f, node));
                     }
                 }
                 else if (e.v2 == node.node && !closedList.Contains(e.v1))
                 {
+                    float wgh = e.f;
+                    if (res.Contains(e.v1))
+                        wgh -= 100;//handle previous used paths here
                     if (openList.Select(x => x.node).Contains(e.v1))
                     {
                         int toDelete = -1;
                         for (int i = 0; i < openList.Count; i++)
                         {
-                            if (openList[i].node == e.v1 && (e.f + node.f) < openList[i].f)
+                            if (openList[i].node == e.v1 && (wgh + node.f) < openList[i].f)
                                 toDelete = i;
                         }
                         if (toDelete > 0)
                         {
                             openList.RemoveAt(toDelete);
-                            openList.Insert(toDelete, new NavNode(e.v1, e.f + node.f, node));
+                            openList.Insert(toDelete, new NavNode(e.v1, wgh + node.f, node));
                         }
                     }
                     else
                     {
-                        openList.Insert(openList.Count, new NavNode(e.v1, e.f + node.f, node));
+                        openList.Insert(openList.Count, new NavNode(e.v1, wgh + node.f, node));
                     }
                 }
             }
