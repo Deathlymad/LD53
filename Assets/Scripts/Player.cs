@@ -35,7 +35,8 @@ public class Player : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("EnteredPlayer");
+        if (other.tag == "Tile")
+            Debug.Log("EnteredPlayer");
     }
     public void OnTriggerExit(Collider collision)
     {

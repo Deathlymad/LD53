@@ -1,12 +1,70 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MapHandler : MonoBehaviour
 {
-    [Range(5, 30)]
+    private class RowSort : IComparer<GameObject>
+    {
+        public int Compare(GameObject a, GameObject b)
+        {
+            return (int)(a.transform.position.x - b.transform.position.x);
+        }
+    }
+    private class ColSort : IComparer<GameObject>
+    {
+        public int Compare(GameObject a, GameObject b)
+        {
+            return (int)(a.transform.position.z - b.transform.position.z);
+        }
+    }
+    private class Edge : IComparable<Edge>
+    {
+        public Edge(int a, int b, float c)
+        {
+            v1 = a;
+            v2 = b;
+            f = c;
+        }
+        public int v1;
+        public int v2;
+        public float f;
+        public int CompareTo(Edge other)
+        {
+            return (int)(100 * f - other.f);
+        }
+    }
+    private class NavNode : IComparable<NavNode>
+    {
+        public NavNode(int n, float f, NavNode p = null)
+        {
+            node = n;
+            this.f = f;
+            pred = new List<int>();
+            if (p != null)
+            {
+                if (p.pred.Count > 0)
+                    pred.AddRange(p.pred);
+                pred.Add(p.node);
+            }
+        }
+        public int node;
+        public float f;
+        public List<int> pred;
+
+        public int CompareTo(NavNode other)
+        {
+            return (int)(100 * f - other.f);
+        }
+    }
+    private ColSort csrt = new ColSort();
+    private RowSort rsrt = new RowSort();
+
+    [Range(5, 300)]
     public int width, height;
+    private int city_size = 2;
 
     public GameObject CityObject;
     public List<GameObject> tiles;
@@ -34,15 +92,17 @@ public class MapHandler : MonoBehaviour
         generateMap();
     }
     
-    private GameObject spawnTile(Vector3 pos)
+    private GameObject spawnTile(Vector3 pos, bool heavy = true)
     {
-        GameObject tile = Instantiate(tiles[0]); //TODO: select the correct tile
+        GameObject tile = Instantiate(heavy ? tiles[0] : tiles[1]); //TODO: select the correct tile
         tile.transform.parent = transform;
-        tile.transform.position = pos;
+        tile.transform.position = pos - Vector3.up;
+
+        tile.GetComponent<MoveToTarget>().target = pos;
         return tile;
     }
 
-    public void spawnCities()
+    private void spawnCities()
     {
         //bottom left city
         GameObject city = Instantiate(CityObject);
@@ -64,7 +124,7 @@ public class MapHandler : MonoBehaviour
         city.transform.position = new Vector3(width - 2.0f, 0, height - 2.0f);
         city.transform.localRotation = Quaternion.AngleAxis(0.0f, Vector3.up);
     }
-    public void generateTiles()
+    private void generateTiles()
     {
         for (int x = 0; x < 2; x++)
             for (int y = 2; y < height - 2; y++)
@@ -148,55 +208,68 @@ public class MapHandler : MonoBehaviour
                     botCols[x].Add(tile);
                 }
             }
+
+        foreach (var col in topCols)
+            col.Sort(csrt);
+        foreach (var col in botCols)
+            col.Sort(csrt);
+        foreach (var col in leftRows)
+            col.Sort(rsrt);
+        foreach (var col in rightRows)
+            col.Sort(rsrt);
     }
 
     public void generateMap()
     {
         spawnCities();
         generateTiles();
+        updateMap();
     }
 
-    //doesnt update other lists
-    public void pushRow(int idx, bool right = true)
+    //TODO take advantage of sorting
+    private void pushRow(int idx, bool right = true)
     {
         if (right)
         {
             //Step 1 update position, delete improper references
             int toDelete = -1;
-            for (int i = 0; i < rightRows[idx].Count; i++)
+            ref var lst = ref rightRows[idx];
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
                 //Step 1.1 remove all entities operated on
                 if (idx >= height / 2)
                 {
-                    topCols[(int)rightRows[idx][i].transform.position.x].Remove(rightRows[idx][i]);
+                    topCols[(int)cpn.target.x].Remove(lst[i]);
                 }
                 if (idx <= height / 2)
                 {
-                    botCols[(int)rightRows[idx][i].transform.position.x].Remove(rightRows[idx][i]);
+                    botCols[(int)cpn.target.x].Remove(lst[i]);
                 }
                 //Step 1.2 Update Position
-                rightRows[idx][i].transform.position += Vector3.right;
+                cpn.target += Vector3.right;
                 //Step 1.3 Remove out of Range Tile
-                if (rightRows[idx][i].transform.position.x >= width || ((idx < 2 || idx >= height - 2) && rightRows[idx][i].transform.position.x >= width - 2))
+                if (cpn.target.x >= width || ((idx < 2 || idx >= height - 2) && cpn.target.x >= width - 2))
                 {
-                    Destroy(rightRows[idx][i]);
+                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
-            rightRows[idx].RemoveAt(toDelete);
-            //Step 3 add new Object
+            lst.RemoveAt(toDelete);
+            //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3((float)Math.Ceiling((width + 1) / 2.0), 0, idx));
-            rightRows[idx].Add(tile);
-            //Step 4 re add all objects to rows
-            for (int i = 0; i < rightRows[idx].Count; i++)
+            lst.Add(tile);
+            //Step 3 re add all objects to rows
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
                 if (idx >= height / 2)
                 {
-                    topCols[(int)rightRows[idx][i].transform.position.x].Add(rightRows[idx][i]);
+                    topCols[(int)cpn.target.x].Add(lst[i]);
                 }
                 if (idx <= height / 2)
                 {
-                    botCols[(int)rightRows[idx][i].transform.position.x].Add(rightRows[idx][i]);
+                    botCols[(int)cpn.target.x].Add(lst[i]);
                 }
             }
         }
@@ -204,136 +277,363 @@ public class MapHandler : MonoBehaviour
         {
             //Step 1 update position, delete improper references
             int toDelete = -1;
-            for (int i = 0; i < leftRows[idx].Count; i++)
+            ref var lst = ref leftRows[idx];
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
                 //Step 1.1 remove all entities operated on
                 if (idx >= height / 2)
                 {
-                    topCols[(int)leftRows[idx][i].transform.position.x].Remove(leftRows[idx][i]);
+                    topCols[(int)cpn.target.x].Remove(lst[i]);
                 }
                 if (idx <= height / 2)
                 {
-                    botCols[(int)leftRows[idx][i].transform.position.x].Remove(leftRows[idx][i]);
+                    botCols[(int)cpn.target.x].Remove(lst[i]);
                 }
                 //Step 1.2 Update Position
-                leftRows[idx][i].transform.position -= Vector3.right;
+                cpn.target -= Vector3.right;
                 //Step 1.3 Remove out of Range Tile
-                if (leftRows[idx][i].transform.position.x < 0 || ((idx < 2 || idx >= height - 2) && leftRows[idx][i].transform.position.x < 2))
+                if (cpn.target.x < 0 || ((idx < 2 || idx >= height - 2) && cpn.target.x < 2))
                 {
-                    Destroy(leftRows[idx][i]);
+                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
-            leftRows[idx].RemoveAt(toDelete);
-            //Step 3 add new Object
+            lst.RemoveAt(toDelete);
+            //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3((float)Math.Floor((width - 1) / 2.0), 0, idx));
-            leftRows[idx].Add(tile);
-            //Step 4 re add all objects to rows
-            for (int i = 0; i < leftRows[idx].Count; i++)
+            lst.Add(tile);
+            //Step 3 re add all objects to rows
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
                 if (idx >= height / 2)
                 {
-                    topCols[(int)leftRows[idx][i].transform.position.x].Add(leftRows[idx][i]);
+                    topCols[(int)cpn.target.x].Add(lst[i]);
                 }
                 if (idx <= height / 2)
                 {
-                    botCols[(int)leftRows[idx][i].transform.position.x].Add(leftRows[idx][i]);
+                    botCols[(int)cpn.target.x].Add(lst[i]);
                 }
             }
         }
     }
-    public void pushColumn(int idx, bool up = true)
+    private void pushColumn(int idx, bool up = true)
     {
         if (up)
         {
             //Step 1 update position, delete improper references
             int toDelete = -1;
-            for (int i = 0; i < topCols[idx].Count; i++)
+
+            ref var lst = ref topCols[idx];
+
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
+
                 //Step 1.1 remove all entities operated on
                 if (idx >= width / 2)
                 {
-                    if (!rightRows[(int)topCols[idx][i].transform.position.z].Remove(topCols[idx][i]))
+                    if (!rightRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
                 if (idx <= width / 2)
                 {
-                    if (!leftRows[(int)topCols[idx][i].transform.position.z].Remove(topCols[idx][i]))
+                    if (!leftRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
                 //Step 1.2 Update Position
-                topCols[idx][i].transform.position += Vector3.forward;
+                cpn.target += Vector3.forward;
                 //Step 1.3 Remove out of Range Tile
-                if (topCols[idx][i].transform.position.z >= height || ((idx < 2 || idx >= width - 2) && topCols[idx][i].transform.position.z >= height - 2))
+                if (cpn.target.z >= height || ((idx < 2 || idx >= width - 2) && cpn.target.z >= height - 2))
                 {
-                    Destroy(topCols[idx][i]);
+                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
-            topCols[idx].RemoveAt(toDelete);
-            //Step 3 add new Object
-            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Ceiling((height + 1) / 2.0)));
-            topCols[idx].Add(tile);
-            //Step 4 re add all objects to rows
-            for (int i = 0; i < topCols[idx].Count; i++)
+            lst.RemoveAt(toDelete);
+            //Step 2 add new Object
+            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Ceiling(height / 2.0 + 1))); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
+            lst.Add(tile);
+            //Step 3 re add all objects to rows
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
+
                 if (idx >= width / 2.0f)
                 {
-                    rightRows[(int)topCols[idx][i].transform.position.z].Add(topCols[idx][i]);
+                    rightRows[(int)cpn.target.z].Add(lst[i]);
                 }
                 if (idx <= width / 2.0f)
                 {
-                    leftRows[(int)topCols[idx][i].transform.position.z].Add(topCols[idx][i]);
+                    leftRows[(int)cpn.target.z].Add(lst[i]);
                 }
             }
         }
         else
         {
+            ref var lst = ref botCols[idx];
             //Step 1 update position, delete improper references
             int toDelete = -1;
-            for (int i = 0; i < botCols[idx].Count; i++)
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
                 //Step 1.1 remove all entities operated on
                 if (idx >= width / 2)
                 {
-                    if (!rightRows[(int)botCols[idx][i].transform.position.z].Remove(botCols[idx][i]))
+                    if (!rightRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
                 if (idx <= width / 2)
                 {
-                    if (!leftRows[(int)botCols[idx][i].transform.position.z].Remove(botCols[idx][i]))
+                    if (!leftRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
                 //Step 1.2 Update Position
-                botCols[idx][i].transform.position -= Vector3.forward;
+                cpn.target -= Vector3.forward;
                 //Step 1.3 Remove out of Range Tile
-                if (botCols[idx][i].transform.position.z < 0 || ((idx < 2 || idx >= width - 2) && botCols[idx][i].transform.position.z < 2))
+                if (cpn.target.z < 0 || ((idx < 2 || idx >= width - 2) && cpn.target.z < 2))
                 {
-                    Destroy(botCols[idx][i]);
+                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
-            botCols[idx].RemoveAt(toDelete);
-            //Step 3 add new Object
-            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Floor((height - 1) / 2.0)));
-            botCols[idx].Add(tile);
-            //Step 4 re add all objects to rows
-            for (int i = 0; i < botCols[idx].Count; i++)
+            lst.RemoveAt(toDelete);
+            //Step 2 add new Object
+            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Floor(height / 2.0 - 1))); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
+            lst.Add(tile);
+            //Step 3 re add all objects to rows
+            for (int i = 0; i < lst.Count; i++)
             {
+                var cpn = lst[i].GetComponent<MoveToTarget>();
                 if (idx >= width / 2.0f)
                 {
-                    rightRows[(int)botCols[idx][i].transform.position.z].Add(botCols[idx][i]);
+                    rightRows[(int)cpn.target.z].Add(lst[i]);
                 }
                 if (idx <= width / 2.0f)
                 {
-                    leftRows[(int)botCols[idx][i].transform.position.z].Add(botCols[idx][i]);
+                    leftRows[(int)cpn.target.z].Add(lst[i]);
                 }
+            }
+        }
+    }
+
+    private int coordToID(GameObject obj)
+    {
+        Vector3 v = obj.transform.position;
+        return (int)(v.x * height + v.z);
+    }
+    private int coordToID(Transform obj)
+    {
+        Vector3 v = obj.position;
+        return (int)(v.x * height + v.z);
+    }
+    private int coordToID(Vector3 obj)
+    {
+        return (int)(obj.x * height + obj.z);
+    }
+
+    private int[] AStar(List<Edge> edges, int[] g)
+    {
+        int root = 0;
+        root += UnityEngine.Random.Range(2, width - 2) * height + UnityEngine.Random.Range(2, height - 2);
+
+        HashSet<int> closedList = new HashSet<int>();
+        List<NavNode> openList = new List<NavNode>();
+        openList.Add(new NavNode(root, 0.0f, null));
+
+        List<int> goals = new List<int>();
+        goals.AddRange(g);
+
+        List<int> res = new List<int>();
+        
+
+        while (openList.Count > 0)
+        {
+            openList.Sort();
+            //compute open list
+            var node = openList[0];
+            openList.RemoveAt(0);
+            if (goals.Contains(node.node))
+            {
+                goals.Remove(node.node);
+                //backtrace and build route
+                //selectedNodes.AddRange(node.pred);
+                Debug.Log(res.Count);
+                res.AddRange(node.pred);
+                if (goals.Count <= 0)
+                    return res.ToArray();
+            }
+            closedList.Add(node.node);
+
+            //expand to new open nodes
+            foreach (var e in edges)
+            {
+                if (e.v1 == node.node && !closedList.Contains(e.v2))
+                {
+                    if (openList.Select(x => x.node).Contains(e.v2))
+                    {
+                        int toDelete = -1;
+                        for (int i = 0; i < openList.Count; i++)
+                        {
+                            if (openList[i].node == e.v2 && (e.f + node.f) < openList[i].f)
+                                toDelete = i;
+                        }
+                        if (toDelete > 0)
+                        {
+                            openList.RemoveAt(toDelete);
+                            openList.Insert(toDelete, new NavNode(e.v2, e.f + node.f, node));
+                        }
+                    }
+                    else
+                    {
+                        openList.Insert(openList.Count, new NavNode(e.v2, e.f + node.f, node));
+                    }
+                }
+                else if (e.v2 == node.node && !closedList.Contains(e.v1))
+                {
+                    if (openList.Select(x => x.node).Contains(e.v1))
+                    {
+                        int toDelete = -1;
+                        for (int i = 0; i < openList.Count; i++)
+                        {
+                            if (openList[i].node == e.v1 && (e.f + node.f) < openList[i].f)
+                                toDelete = i;
+                        }
+                        if (toDelete > 0)
+                        {
+                            openList.RemoveAt(toDelete);
+                            openList.Insert(toDelete, new NavNode(e.v1, e.f + node.f, node));
+                        }
+                    }
+                    else
+                    {
+                        openList.Insert(openList.Count, new NavNode(e.v1, e.f + node.f, node));
+                    }
+                }
+            }
+        }
+        return res.ToArray();
+    }
+
+    private void guaranteeSolvability()
+    {
+        //TODO Kruskal and then remove nonessential paths
+        List<Edge> graph = new List<Edge>(); //weight; (v1, v2); -> edge list
+
+        //generate edge list
+        foreach (var grp in new []{ topCols, botCols})
+        {
+            foreach (var col in grp)
+            {
+                col.Sort(csrt);
+                for (int i = 1; i < col.Count; i++)
+                {
+                    var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+                    weight += col[i - 1].GetComponent<TileHandler>().GetPathWeight();
+                    weight += col[i].GetComponent<TileHandler>().GetPathWeight();
+                    var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
+                    var cpn = col[i].GetComponent<MoveToTarget>();
+                    graph.Add(new Edge(coordToID(cpn1.target), coordToID(cpn.target), weight));
+                }
+            }
+        }
+        foreach (var grp in new[] { leftRows, rightRows })
+        {
+            foreach (var col in grp)
+            {
+                col.Sort(rsrt);
+                for (int i = 1; i < col.Count; i++)
+                {
+                    var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+                    weight += col[i - 1].GetComponent<TileHandler>().GetPathWeight();
+                    weight += col[i].GetComponent<TileHandler>().GetPathWeight();
+                    var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
+                    var cpn = col[i].GetComponent<MoveToTarget>();
+                    graph.Add(new Edge(coordToID(cpn1.target), coordToID(cpn.target), weight));
+                }
+            }
+        }
+        //Add edges to cities
+        int c1 = 0;
+        int c2 = width;
+        int c3 = (height - 1) * width;
+        int c4 = height * width;
+        //C0 (bottom left)
+        for (int i = 1; i < city_size; i++)
+            graph.Add(new Edge(c1, height * i + city_size, 0.0f));
+        for (int i = 1; i <= city_size; i++)
+            graph.Add(new Edge(c1, height * city_size + i, 0.0f));
+        
+
+        //C1 (top left)
+        for (int i = 1; i < city_size; i++)
+            graph.Add(new Edge(c2, height * i + height - city_size, 0.0f));
+        for (int i = 0; i < city_size; i++)
+            graph.Add(new Edge(c2, height * city_size + height - city_size + i, 0.0f));
+
+
+
+        //C3 (bottom right)
+        for (int i = 1; i <= city_size; i++)
+            graph.Add(new Edge(c3, height * (width - city_size - 1) + i, 0.0f));
+        for (int i = 0; i < city_size; i++)
+            graph.Add(new Edge(c3, height * (width - city_size + i) + city_size, 0.0f));
+
+
+        //C4 (top right)
+        for (int i = 1; i <= city_size; i++)
+            graph.Add(new Edge(c4, height * (width - city_size - 1) + height - city_size + i, 0.0f));
+        for (int i = 0; i < city_size; i++)
+            graph.Add(new Edge(c4, height * (width - city_size + i) + height - city_size, 0.0f));
+
+        int[] c = new int[4];
+        c[0] = c1;
+        c[1] = c2;
+        c[2] = c3;
+        c[3] = c4;
+        int[] freeFields = AStar(graph, c);
+
+        List<int> toDestroy = new List<int>();
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            var child = this.transform.GetChild(i);
+            if (freeFields.Contains(coordToID(child)))
+            {
+                toDestroy.Add(i);
+            }
+        }
+        foreach(int i in toDestroy)
+        {
+            var child = this.transform.GetChild(i);
+            GameObject tile = spawnTile(child.position, false);
+
+            var x = (int)child.transform.position.x;
+            var y = (int)child.transform.position.z;
+            // Draw a yellow sphere at the transform's position
+            Destroy(child.gameObject);
+            if (x >= width / 2)
+            {
+                rightRows[y].Add(tile);
+            }
+            if (x <= width / 2)
+            {
+                leftRows[y].Add(tile);
+            }
+            if (y >= height / 2)
+            {
+                topCols[x].Add(tile);
+            }
+            if (y <= height / 2)
+            {
+                botCols[x].Add(tile);
             }
         }
     }
 
     public void updateMap()
     {
+        //TODO: make variable
         for (int i = 0; i < 5; i++)
         {
             int val = UnityEngine.Random.Range(0, width);
@@ -342,6 +642,7 @@ public class MapHandler : MonoBehaviour
             pushColumn(val, false);
             pushColumn(val, true);
         }
+        guaranteeSolvability(); //THIS IS REALLY TERRIBLE
     }
 
     // Update is called once per frame
@@ -357,6 +658,10 @@ public class MapHandler : MonoBehaviour
     {
         //TODO: maybe realign so these coordinates aren't as whack anymore
         Gizmos.DrawWireCube(transform.TransformPoint(new Vector3(width / 2 - 0.5f, 1, height / 2 - 0.5f)), transform.TransformPoint(new Vector3(width, 2, height)));
+        //guaranteeSolvability();
+
+        //TestEdges
+        //generate edge list
     }
 
 }

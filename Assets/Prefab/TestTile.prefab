@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2919598432101731999}
   - component: {fileID: 5563202665274345190}
+  - component: {fileID: -3686489307792089259}
+  - component: {fileID: 3621409472372392854}
   m_Layer: 0
   m_Name: TestTile
   m_TagString: Tile
@@ -46,6 +48,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &-3686489307792089259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2919598432101731992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 996b053ee115b0946b4da5e46461ed7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.4
+  target: {x: 0, y: 0, z: 0}
+--- !u!114 &3621409472372392854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2919598432101731992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8ab333919b2b24d9feabc64f4a8b0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1
 --- !u!1 &2919598433315949004
 GameObject:
   m_ObjectHideFlags: 0
