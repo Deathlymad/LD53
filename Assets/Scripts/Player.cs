@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed = 0.02f;
     public float rotSpeed = 0.02f;
+    public Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -16,29 +17,48 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool isDown = false;
+
         if (Input.GetKey("w"))
         {
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
+            isDown |= true;
         }
         if (Input.GetKey("a"))
         {
             transform.position -= transform.right * moveSpeed * Time.deltaTime;
+            isDown |= true;
         }
         if (Input.GetKey("s"))
         {
             transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+            isDown |= true;
         }
         if (Input.GetKey("d"))
         {
             transform.position += transform.right * moveSpeed * Time.deltaTime;
+            isDown |= true;
         }
         if (Input.GetKey("q"))
         {
             transform.rotation *= Quaternion.AngleAxis(-rotSpeed*Time.deltaTime, Vector3.up);
+            isDown |= true;
         }
         if (Input.GetKey("e"))
         {
             transform.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime, Vector3.up);
+            isDown |= true;
+        }
+
+        if (isDown)
+        {
+            anim.ResetTrigger("StopRunning");
+            anim.SetTrigger("Running");
+        }
+        else
+        {
+            anim.ResetTrigger("Running");
+            anim.SetTrigger("StopRunning");
         }
     }
 

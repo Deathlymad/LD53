@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CityBehavior : MonoBehaviour
 {
+    public Animator anim;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +19,14 @@ public class CityBehavior : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("EnteredCity");
+        anim.ResetTrigger("IsNotNear");
+        anim.SetTrigger("IsNear");
+        Debug.Log("Entered City");
     }
     public void OnTriggerExit(Collider collision)
     {
-        Debug.Log("LeftCity");
+        anim.ResetTrigger("IsNear");
+        anim.SetTrigger("IsNotNear");
+        Debug.Log("Left City");
     }
 }
