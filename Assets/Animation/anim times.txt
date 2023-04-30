@@ -2,3 +2,5 @@ walk cycle
 1-20
 idle
 22-60
+pickup
+62-95
