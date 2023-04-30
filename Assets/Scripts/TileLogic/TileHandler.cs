@@ -42,7 +42,7 @@ public class TileHandler : MonoBehaviour
             w -= v.weight;
             if (w <= 0.01f && v.prefab != null)
             {
-                float scaleFactor = UnityEngine.Random.Range(0.1f, 0.7f);
+                float scaleFactor = UnityEngine.Random.Range(0.5f, 0.9f);
                 GameObject obj = Instantiate(v.prefab);
                 obj.transform.parent = transform;
                 obj.transform.position = Vector3.zero;
