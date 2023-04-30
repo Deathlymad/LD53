@@ -60,3 +60,5 @@ crashlytics-build.properties
 
 .vscode/
 [Uu]ser[Ss]ettings
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
