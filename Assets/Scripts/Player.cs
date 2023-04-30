@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
     //=======================================================
     public void OnPickup()
     {
+        playerAnim.ResetTrigger("Interact");
         //TODO add to inventory
         if (item != null)
         {
@@ -98,7 +99,8 @@ public class Player : MonoBehaviour
                     item.GetComponent<Item>().pickUp(this.gameObject);
                     playerAnim.ResetTrigger("Running");
                     playerAnim.SetTrigger("StopRunning");
-                    playerAnim.SetTrigger("Pickup");
+                    playerAnim.SetTrigger("Interact");
+                    Invoke("OnPickup", 17.0f / 24.0f);
                 }
             }
         }
