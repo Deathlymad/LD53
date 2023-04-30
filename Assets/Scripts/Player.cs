@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     }
     public void OnTriggerExit(Collider collision)
     {
-        Debug.Log("LeftPlayer");
+        if (collision.tag == "Tile")
+            Debug.Log("LeftPlayer");
     }
 }
