@@ -11,36 +11,47 @@ public class Player : MonoBehaviour
     private bool canMove = true;
     private GameObject item = null;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
 
+    //Called By Other Scripts
+    //=======================================================
     public void enterCity()
     {
         canMove = false;
+        //TODO open UI
     }
     public void leaveCity()
     {
         canMove = true;
     }
-    public void nearItem(GameObject itm)
+    public void nearItem(GameObject itm) //store items you can collect
     {
         item = itm;
     }
-    public void leaveItem(GameObject itm)
+    public void leaveItem(GameObject itm) //drop item you can collect
     {
         if (item == itm)
             item = null;
     }
 
-    public OnPickup()
+
+    //Called By Animations
+    //=======================================================
+    public void OnPickup()
     {
         //TODO add to inventory
-        obj.leaveItem(obj);
+        if (item != null)
+        {
+            Destroy(item);
+        }
     }
 
+    //Called By Unity
+    //=======================================================
+    // Start is called before the first frame update
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -80,11 +91,11 @@ public class Player : MonoBehaviour
             }
 
 
-            if (Input.GetKey("e"))
+            if (Input.GetKey("e") && item != null)
             {
-                if (item != null)
+                if (item.GetComponent<Item>() != null)
                 {
-                    item.GetComponen<Item>().pickUp(this);
+                    item.GetComponent<Item>().pickUp(this.gameObject);
                     playerAnim.ResetTrigger("Running");
                     playerAnim.SetTrigger("StopRunning");
                     playerAnim.SetTrigger("Pickup");
