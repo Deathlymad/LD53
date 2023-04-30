@@ -67,7 +67,7 @@ public class MapHandler : MonoBehaviour
     private int city_size = 2;
 
     public GameObject CityObject;
-    public List<GameObject> tiles;
+    public List<GameObject> tiles; //TilePrefabs
 
     private List<GameObject>[] topCols, botCols, rightRows, leftRows;
 
@@ -92,6 +92,20 @@ public class MapHandler : MonoBehaviour
         generateMap();
     }
     
+    public GameObject getTileFromPosition(Vector3 pos)
+    {
+        if (pos.x >= width / 2.0f)
+        {
+            foreach( var t in rightRows[(int)Math.Floor(pos.z)])
+                if ((t.transform.position.x - Math.Floor(pos.x)) < 0.01f)
+                    return t;
+        }
+        foreach (var t in leftRows[(int)Math.Floor(pos.z)])
+            if ((t.transform.position.x - Math.Floor(pos.x)) < 0.01f)
+                return t;
+        return null; //unreachable
+    }
+
     private GameObject spawnTile(Vector3 pos, bool heavy = true)
     {
         GameObject tile = Instantiate(heavy ? tiles[0] : tiles[1]); //TODO: select the correct tile

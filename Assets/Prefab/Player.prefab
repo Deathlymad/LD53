@@ -244,6 +244,8 @@ MonoBehaviour:
   moveSpeed: 0.2
   rotSpeed: 100
   playerAnim: {fileID: 7642625103533458508}
+  torchPrefab: {fileID: 2669207973058700100, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
+  map: {fileID: 0}
 --- !u!54 &7642625105211617560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -590,19 +592,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6503110621427570132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7408815956737489178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bf3c269a1b93b4469e90028c1cd695c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  p: {fileID: 8015089356055513468}
 --- !u!4 &7897825520663208864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3d507418f2553ed449f92ab03b6dd932, type: 3}
