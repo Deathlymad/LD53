@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     public float rotSpeed = 0.02f;
     public Animator playerAnim;
 
+    public GameObject torchPrefab;
+    public MapHandler map;
+
     private bool canMove = true;
     private GameObject item = null;
 
@@ -38,6 +41,7 @@ public class Player : MonoBehaviour
     //=======================================================
     public void OnPickup()
     {
+        playerAnim.ResetTrigger("Interact");
         //TODO add to inventory
         if (item != null)
         {
@@ -91,16 +95,27 @@ public class Player : MonoBehaviour
             }
 
 
-            if (Input.GetKey("e") && item != null)
+            if (Input.GetKeyDown("e"))
             {
-                if (item.GetComponent<Item>() != null)
+                if (item != null && item.GetComponent<Item>() != null)
                 {
                     item.GetComponent<Item>().pickUp(this.gameObject);
                     playerAnim.ResetTrigger("Running");
                     playerAnim.SetTrigger("StopRunning");
-                    playerAnim.SetTrigger("Pickup");
+                    playerAnim.SetTrigger("Interact");
+                    Invoke("OnPickup", 17.0f / 24.0f); //counted by frames
+                }
+                else
+                {
+                    GameObject obj = Instantiate(torchPrefab);
+
+                    obj.transform.parent = map.getTileFromPosition(transform.position).transform;
+                    Debug.Log(transform.position);
+                    Debug.Log(obj.transform.parent.position);
+                    obj.transform.position = transform.position;
                 }
             }
+            
         }
         if (Input.GetKey("x"))
         {

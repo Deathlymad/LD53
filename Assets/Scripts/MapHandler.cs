@@ -67,7 +67,7 @@ public class MapHandler : MonoBehaviour
     private int city_size = 2;
 
     public GameObject CityObject;
-    public List<GameObject> tiles;
+    public List<GameObject> tiles; //TilePrefabs
 
     private List<GameObject>[] topCols, botCols, rightRows, leftRows;
 
@@ -92,6 +92,24 @@ public class MapHandler : MonoBehaviour
         generateMap();
     }
     
+    public GameObject getTileFromPosition(Vector3 pos)
+    {
+        if (pos.x >= width / 2.0f)
+        {
+            rightRows[(int)Math.Ceiling(pos.z)].Sort(rsrt);
+            foreach ( var t in rightRows[(int)Math.Ceiling(pos.z)])
+                if (Math.Abs(t.GetComponent<MoveToTarget>().target.x - Math.Ceiling(pos.x)) < 0.01f)
+                    return t;
+        }
+        leftRows[(int)Math.Ceiling(pos.z)].Sort(rsrt);
+        foreach (var t in leftRows[(int)Math.Ceiling(pos.z)])
+            if (Math.Abs(t.GetComponent<MoveToTarget>().target.x - Math.Ceiling(pos.x)) < 0.01f)
+                return t;
+        Debug.Log(pos);
+        throw new ArgumentException("Position Apparently not on map");
+        return null; //unreachable
+    }
+
     private GameObject spawnTile(Vector3 pos, bool heavy = true)
     {
         GameObject tile = Instantiate(heavy ? tiles[0] : tiles[1]); //TODO: select the correct tile
@@ -661,6 +679,12 @@ public class MapHandler : MonoBehaviour
         foreach (int i in toDestroy)
         {
             var child = this.transform.GetChild(i);
+
+            if (child.gameObject.GetComponent<TileHandler>().GetPathWeight() == tiles[1].GetComponent<TileHandler>().GetPathWeight())
+            {
+                continue;
+            }
+
             var x = (int)child.GetComponent<MoveToTarget>().target.x;
             var y = (int)child.GetComponent<MoveToTarget>().target.z;
             if (
