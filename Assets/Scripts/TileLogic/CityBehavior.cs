@@ -21,12 +21,24 @@ public class CityBehavior : MonoBehaviour
     {
         anim.ResetTrigger("IsNotNear");
         anim.SetTrigger("IsNear");
+
+        if (other.gameObject.GetComponent<Player>() != null)
+        {
+            Player obj = other.gameObject.GetComponent<Player>();
+            obj.enterCity();
+        }
         Debug.Log("Entered City");
     }
-    public void OnTriggerExit(Collider collision)
+    public void OnTriggerExit(Collider other)
     {
         anim.ResetTrigger("IsNear");
         anim.SetTrigger("IsNotNear");
+
+        if (other.gameObject.GetComponent<Player>() != null)
+        {
+            Player obj = other.gameObject.GetComponent<Player>();
+            obj.leaveCity();
+        }
         Debug.Log("Left City");
     }
 }
