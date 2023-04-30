@@ -627,25 +627,25 @@ public class MapHandler : MonoBehaviour
         HashSet<int> toDestroy = new HashSet<int>();
         HashSet<int> cityBorders = new HashSet<int>();
         //C0 (bottom left)
-        for (int i = 1; i < city_size; i++)
+        for (int i = 0; i < city_size; i++)
             cityBorders.Add(height * i + city_size);
-        for (int i = 1; i <= city_size; i++)
+        for (int i = 0; i <= city_size; i++)
             cityBorders.Add(height * city_size + i);
         //C1 (top left)
-        for (int i = 1; i < city_size; i++)
-            cityBorders.Add(height * i + height - city_size - 1);
         for (int i = 0; i < city_size; i++)
+            cityBorders.Add(height * i + height - city_size - 1);
+        for (int i = 0; i <= city_size; i++)
             cityBorders.Add(height * city_size + height - city_size - 1 + i);
         //C3 (bottom right)
-        for (int i = 1; i <= city_size; i++)
+        for (int i = 0; i <= city_size; i++)
             cityBorders.Add(height * (width - city_size - 1) + i);
-        for (int i = 1; i < city_size; i++)
-            cityBorders.Add(height * (width - city_size - 1 + i) + city_size);
+        for (int i = 0; i < city_size; i++)
+            cityBorders.Add(height * (width - city_size + i) + city_size);
         //C4 (top right)
         for (int i = 0; i <= city_size; i++)
             cityBorders.Add(height * (width - city_size - 1) + height - city_size - 1 + i);
         for (int i = 0; i < city_size; i++)
-            cityBorders.Add(height * (width - city_size - 1 + i) + height - city_size - 1);
+            cityBorders.Add(height * (width - city_size + i) + height - city_size - 1);
         for (int i = 0; i < this.transform.childCount; i++)
         {
             var child = this.transform.GetChild(i);
@@ -726,32 +726,32 @@ public class MapHandler : MonoBehaviour
         //guaranteeSolvability();
 
         //TestEdges
-        for (int i = 1; i < city_size; i++)
+        for (int i = 0; i < city_size; i++)
             Gizmos.DrawSphere(new Vector3(i, 0, city_size), 0.4f);
-        for (int i = 1; i <= city_size; i++)
+        for (int i = 0; i <= city_size; i++)
             Gizmos.DrawSphere(new Vector3(city_size, 0, i), 0.4f);
 
 
         //C1 (top left)
-        for (int i = 1; i < city_size; i++)
-            Gizmos.DrawSphere(new Vector3(i, 0, height - city_size - 1), 0.4f);
         for (int i = 0; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3(i, 0, height - city_size - 1), 0.4f);
+        for (int i = 0; i <= city_size; i++)
             Gizmos.DrawSphere(new Vector3(city_size, 0, height - city_size - 1 + i), 0.4f);
 
 
 
         //C3 (bottom right)
-        for (int i = 1; i <= city_size; i++)
+        for (int i = 0; i <= city_size; i++)
             Gizmos.DrawSphere(new Vector3((width - city_size - 1), 0, i), 0.4f);
-        for (int i = 1; i < city_size; i++)
-            Gizmos.DrawSphere(new Vector3((width - city_size - 1 + i), 0, city_size), 0.4f);
+        for (int i = 0; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3((width - city_size + i), 0, city_size), 0.4f);
 
 
         //C4 (top right)
+        for (int i = 0; i <= city_size; i++)
+            Gizmos.DrawSphere(new Vector3((width - city_size - 1), 0, height - city_size - 1 + i), 0.4f);
         for (int i = 0; i < city_size; i++)
-            Gizmos.DrawSphere(new Vector3((width - city_size - 1), 0, height - city_size -1 + i), 0.4f);
-        for (int i = 0; i < city_size; i++)
-            Gizmos.DrawSphere(new Vector3((width - city_size - 1 + i), 0, height - city_size - 1), 0.4f);
+            Gizmos.DrawSphere(new Vector3((width - city_size + i), 0, height - city_size - 1), 0.4f);
     }
 
 }
