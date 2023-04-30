@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
             }
 
 
-            if (Input.GetKey("e"))
+            if (Input.GetKeyDown("e"))
             {
                 if (item != null && item.GetComponent<Item>() != null)
                 {
@@ -110,6 +110,8 @@ public class Player : MonoBehaviour
                     GameObject obj = Instantiate(torchPrefab);
 
                     obj.transform.parent = map.getTileFromPosition(transform.position).transform;
+                    Debug.Log(transform.position);
+                    Debug.Log(obj.transform.parent.position);
                     obj.transform.position = transform.position;
                 }
             }

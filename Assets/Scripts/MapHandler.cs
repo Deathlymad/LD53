@@ -96,13 +96,17 @@ public class MapHandler : MonoBehaviour
     {
         if (pos.x >= width / 2.0f)
         {
-            foreach( var t in rightRows[(int)Math.Floor(pos.z)])
-                if ((t.transform.position.x - Math.Floor(pos.x)) < 0.01f)
+            rightRows[(int)Math.Ceiling(pos.z)].Sort(rsrt);
+            foreach ( var t in rightRows[(int)Math.Ceiling(pos.z)])
+                if (Math.Abs(t.GetComponent<MoveToTarget>().target.x - Math.Ceiling(pos.x)) < 0.01f)
                     return t;
         }
-        foreach (var t in leftRows[(int)Math.Floor(pos.z)])
-            if ((t.transform.position.x - Math.Floor(pos.x)) < 0.01f)
+        leftRows[(int)Math.Ceiling(pos.z)].Sort(rsrt);
+        foreach (var t in leftRows[(int)Math.Ceiling(pos.z)])
+            if (Math.Abs(t.GetComponent<MoveToTarget>().target.x - Math.Ceiling(pos.x)) < 0.01f)
                 return t;
+        Debug.Log(pos);
+        throw new ArgumentException("Position Apparently not on map");
         return null; //unreachable
     }
 
@@ -675,6 +679,12 @@ public class MapHandler : MonoBehaviour
         foreach (int i in toDestroy)
         {
             var child = this.transform.GetChild(i);
+
+            if (child.gameObject.GetComponent<TileHandler>().GetPathWeight() == tiles[1].GetComponent<TileHandler>().GetPathWeight())
+            {
+                continue;
+            }
+
             var x = (int)child.GetComponent<MoveToTarget>().target.x;
             var y = (int)child.GetComponent<MoveToTarget>().target.z;
             if (
