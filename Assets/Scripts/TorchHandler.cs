@@ -6,20 +6,21 @@ public class TorchHandler : MonoBehaviour
 {
     public Animator torchAnim;
 
-    public int torches = 1;
+    public int torches = 3;
 
     public float burnTime = 10.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        torchAnim.SetBool("HasNewTorch", torches > 0);
     }
 
 
     void OnLightTorch()
     {
         Invoke("updateTorch", burnTime);
+        torchAnim.SetBool("HasNewTorch", torches > 0);
         torches -= 1;
         torchAnim.SetBool("HasNewTorch", torches > 0);
         torchAnim.SetInteger("Power", 3);
