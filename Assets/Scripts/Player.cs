@@ -6,14 +6,12 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed = 0.02f;
     public float rotSpeed = 0.02f;
-    public Animator anim;
+    public Animator playerAnim;
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -52,13 +50,13 @@ public class Player : MonoBehaviour
 
         if (isDown)
         {
-            anim.ResetTrigger("StopRunning");
-            anim.SetTrigger("Running");
+            playerAnim.ResetTrigger("StopRunning");
+            playerAnim.SetTrigger("Running");
         }
         else
         {
-            anim.ResetTrigger("Running");
-            anim.SetTrigger("StopRunning");
+            playerAnim.ResetTrigger("Running");
+            playerAnim.SetTrigger("StopRunning");
         }
     }
 
