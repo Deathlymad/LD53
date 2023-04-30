@@ -10,14 +10,14 @@ public class MapHandler : MonoBehaviour
     {
         public int Compare(GameObject a, GameObject b)
         {
-            return (int)(a.transform.position.x - b.transform.position.x);
+            return (int)(a.GetComponent<MoveToTarget>().target.x - b.GetComponent<MoveToTarget>().target.x);
         }
     }
     private class ColSort : IComparer<GameObject>
     {
         public int Compare(GameObject a, GameObject b)
         {
-            return (int)(a.transform.position.z - b.transform.position.z);
+            return (int)(a.GetComponent<MoveToTarget>().target.z - b.GetComponent<MoveToTarget>().target.z);
         }
     }
     private class Edge : IComparable<Edge>
@@ -186,7 +186,7 @@ public class MapHandler : MonoBehaviour
                 }
                 topCols[x].Add(tile);
             }
-        for (int x = 2; x < height - 2; x ++)
+        for (int x = 2; x < width - 2; x ++)
             for (int y = 2; y < height - 2; y++)
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
@@ -209,14 +209,16 @@ public class MapHandler : MonoBehaviour
                 }
             }
 
-        foreach (var col in topCols)
-            col.Sort(csrt);
-        foreach (var col in botCols)
-            col.Sort(csrt);
-        foreach (var col in leftRows)
-            col.Sort(rsrt);
-        foreach (var col in rightRows)
-            col.Sort(rsrt);
+        for (int i = 0; i < width; i++)
+        {
+            topCols[i].Sort(csrt);
+            botCols[i].Sort(csrt);
+        }
+        for (int i = 0; i < height; i++)
+        {
+            leftRows[i].Sort(csrt);
+            rightRows[i].Sort(csrt);
+        }
     }
 
     public void generateMap()
@@ -251,10 +253,10 @@ public class MapHandler : MonoBehaviour
                 //Step 1.3 Remove out of Range Tile
                 if (cpn.target.x >= width || ((idx < 2 || idx >= height - 2) && cpn.target.x >= width - 2))
                 {
-                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
+            Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3((float)Math.Ceiling((width + 1) / 2.0), 0, idx));
@@ -295,10 +297,10 @@ public class MapHandler : MonoBehaviour
                 //Step 1.3 Remove out of Range Tile
                 if (cpn.target.x < 0 || ((idx < 2 || idx >= height - 2) && cpn.target.x < 2))
                 {
-                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
+            Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3((float)Math.Floor((width - 1) / 2.0), 0, idx));
@@ -347,10 +349,10 @@ public class MapHandler : MonoBehaviour
                 //Step 1.3 Remove out of Range Tile
                 if (cpn.target.z >= height || ((idx < 2 || idx >= width - 2) && cpn.target.z >= height - 2))
                 {
-                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
+            Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Ceiling(height / 2.0 + 1))); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
@@ -394,10 +396,10 @@ public class MapHandler : MonoBehaviour
                 //Step 1.3 Remove out of Range Tile
                 if (cpn.target.z < 0 || ((idx < 2 || idx >= width - 2) && cpn.target.z < 2))
                 {
-                    Destroy(lst[i]);
                     toDelete = i;//there is always only one tile to delete
                 }
             }
+            Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Floor(height / 2.0 - 1))); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
@@ -459,7 +461,6 @@ public class MapHandler : MonoBehaviour
                 goals.Remove(node.node);
                 //backtrace and build route
                 //selectedNodes.AddRange(node.pred);
-                Debug.Log(res.Count);
                 res.AddRange(node.pred);
                 if (goals.Count <= 0)
                     return res.ToArray();
@@ -541,9 +542,28 @@ public class MapHandler : MonoBehaviour
                     var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
                     var cpn = col[i].GetComponent<MoveToTarget>();
                     graph.Add(new Edge(coordToID(cpn1.target), coordToID(cpn.target), weight));
+                    if ((cpn1.target - cpn.target).magnitude > 1.1)
+                    {
+                        throw new AccessViolationException("Failed to compute graph");
+                    }
                 }
             }
         }
+
+        for (int x = 0; x < width; x++)
+        {
+            var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+            weight += topCols[x][0].GetComponent<TileHandler>().GetPathWeight();
+            weight += botCols[x].Last().GetComponent<TileHandler>().GetPathWeight();
+            var cpn1 = topCols[x][0].GetComponent<MoveToTarget>();
+            var cpn = botCols[x].Last().GetComponent<MoveToTarget>();
+            graph.Add(new Edge(coordToID(cpn1.target), coordToID(cpn.target), weight));
+            if ((cpn1.target - cpn.target).magnitude > 1.1)
+            {
+                throw new AccessViolationException("Failed to compute graph");
+            }
+        }
+
         foreach (var grp in new[] { leftRows, rightRows })
         {
             foreach (var col in grp)
@@ -557,9 +577,29 @@ public class MapHandler : MonoBehaviour
                     var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
                     var cpn = col[i].GetComponent<MoveToTarget>();
                     graph.Add(new Edge(coordToID(cpn1.target), coordToID(cpn.target), weight));
+                    if ((cpn1.target - cpn.target).magnitude > 1.1)
+                    {
+                        throw new AccessViolationException("Failed to compute graph");
+                    }
                 }
             }
         }
+        for (int y = 0; y < width; y++)
+        {
+            var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+            weight += rightRows[y][0].GetComponent<TileHandler>().GetPathWeight();
+            weight += leftRows[y].Last().GetComponent<TileHandler>().GetPathWeight();
+            var cpn1 = rightRows[y][0].GetComponent<MoveToTarget>();
+            var cpn = leftRows[y].Last().GetComponent<MoveToTarget>();
+            graph.Add(new Edge(coordToID(cpn1.target), coordToID(cpn.target), weight));
+            if ((cpn1.target - cpn.target).magnitude > 1.1)
+            {
+                throw new AccessViolationException("Failed to compute graph");
+            }
+        }
+
+
+        Debug.Log(graph.Count);
         //Add edges to cities
         int c1 = 0;
         int c2 = width;
@@ -574,37 +614,33 @@ public class MapHandler : MonoBehaviour
 
         //C1 (top left)
         for (int i = 1; i < city_size; i++)
-            graph.Add(new Edge(c2, height * i + height - city_size, 0.0f));
+            graph.Add(new Edge(c2, height * i + height - city_size - 1, 0.0f));
         for (int i = 0; i < city_size; i++)
-            graph.Add(new Edge(c2, height * city_size + height - city_size + i, 0.0f));
+            graph.Add(new Edge(c2, height * city_size + height - city_size - 1 + i, 0.0f));
 
 
 
         //C3 (bottom right)
         for (int i = 1; i <= city_size; i++)
             graph.Add(new Edge(c3, height * (width - city_size - 1) + i, 0.0f));
-        for (int i = 0; i < city_size; i++)
-            graph.Add(new Edge(c3, height * (width - city_size + i) + city_size, 0.0f));
+        for (int i = 1; i < city_size; i++)
+            graph.Add(new Edge(c3, height * (width - city_size - 1 + i) + city_size, 0.0f));
 
 
         //C4 (top right)
         for (int i = 1; i <= city_size; i++)
-            graph.Add(new Edge(c4, height * (width - city_size - 1) + height - city_size + i, 0.0f));
+            graph.Add(new Edge(c4, height * (width - city_size - 1) + height - city_size - 1 + i, 0.0f));
         for (int i = 0; i < city_size; i++)
-            graph.Add(new Edge(c4, height * (width - city_size + i) + height - city_size, 0.0f));
+            graph.Add(new Edge(c4, height * (width - city_size - 1 + i) + height - city_size, 0.0f));
 
-        int[] c = new int[4];
-        c[0] = c1;
-        c[1] = c2;
-        c[2] = c3;
-        c[3] = c4;
-        int[] freeFields = AStar(graph, c);
+
+        int[] freeFields = AStar(graph, new int[] { c1, c2, c3, c4});
 
         List<int> toDestroy = new List<int>();
         for (int i = 0; i < this.transform.childCount; i++)
         {
             var child = this.transform.GetChild(i);
-            if (freeFields.Contains(coordToID(child)))
+            if (freeFields.Contains(coordToID(child)) && child.gameObject.tag == "Tile")
             {
                 toDestroy.Add(i);
             }
@@ -612,28 +648,34 @@ public class MapHandler : MonoBehaviour
         foreach(int i in toDestroy)
         {
             var child = this.transform.GetChild(i);
-            GameObject tile = spawnTile(child.position, false);
+            var x = (int)child.GetComponent<MoveToTarget>().target.x;
+            var y = (int)child.GetComponent<MoveToTarget>().target.z;
+            if (y >= height || ((x < 2 || x >= width - 2) && y >= height - 2) || x < 0 || ((y < 2 || y >= height - 2) && x < 2))
 
-            var x = (int)child.transform.position.x;
-            var y = (int)child.transform.position.z;
-            // Draw a yellow sphere at the transform's position
-            Destroy(child.gameObject);
+                Debug.Log((x, y));
+            GameObject tile = spawnTile(child.gameObject.GetComponent<MoveToTarget>().target, false);
+
             if (x >= width / 2)
             {
+                rightRows[y].Remove(child.gameObject);
                 rightRows[y].Add(tile);
             }
             if (x <= width / 2)
             {
+                leftRows[y].Remove(child.gameObject);
                 leftRows[y].Add(tile);
             }
             if (y >= height / 2)
             {
+                topCols[x].Remove(child.gameObject);
                 topCols[x].Add(tile);
             }
             if (y <= height / 2)
             {
+                botCols[x].Remove(child.gameObject);
                 botCols[x].Add(tile);
             }
+            Destroy(child.gameObject);
         }
     }
 
@@ -648,7 +690,7 @@ public class MapHandler : MonoBehaviour
             pushColumn(val, false);
             pushColumn(val, true);
         }
-        guaranteeSolvability(); //THIS IS REALLY TERRIBLE
+        guaranteeSolvability();
     }
 
     // Update is called once per frame
@@ -667,7 +709,32 @@ public class MapHandler : MonoBehaviour
         //guaranteeSolvability();
 
         //TestEdges
-        //generate edge list
+        for (int i = 1; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3(i, 0, city_size), 0.4f);
+        for (int i = 1; i <= city_size; i++)
+            Gizmos.DrawSphere(new Vector3(city_size, 0, i), 0.4f);
+
+
+        //C1 (top left)
+        for (int i = 1; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3(i, 0, height - city_size - 1), 0.4f);
+        for (int i = 0; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3(city_size, 0, height - city_size - 1 + i), 0.4f);
+
+
+
+        //C3 (bottom right)
+        for (int i = 1; i <= city_size; i++)
+            Gizmos.DrawSphere(new Vector3((width - city_size - 1), 0, i), 0.4f);
+        for (int i = 1; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3((width - city_size - 1 + i), 0, city_size), 0.4f);
+
+
+        //C4 (top right)
+        for (int i = 1; i <= city_size; i++)
+            Gizmos.DrawSphere(new Vector3((width - city_size - 1), 0, height - city_size - 1 + i), 0.4f);
+        for (int i = 0; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3((width - city_size - 1 + i), 0, height - city_size), 0.4f);
     }
 
 }
