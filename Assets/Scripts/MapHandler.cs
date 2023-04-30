@@ -420,16 +420,6 @@ public class MapHandler : MonoBehaviour
         }
     }
 
-    private int coordToID(GameObject obj)
-    {
-        Vector3 v = obj.transform.position;
-        return (int)(v.x * height + v.z);
-    }
-    private int coordToID(Transform obj)
-    {
-        Vector3 v = obj.position;
-        return (int)(v.x * height + v.z);
-    }
     private int coordToID(Vector3 obj)
     {
         return (int)(obj.x * height + obj.z);
@@ -474,7 +464,7 @@ public class MapHandler : MonoBehaviour
                 {
                     float wgh = e.f;
                     if (res.Contains(e.v2))
-                        wgh -= 100;//handle previous used paths here
+                        wgh -= 100.0f;//handle previous used paths here
                     if (openList.Select(x => x.node).Contains(e.v2))
                     {
                         int toDelete = -1;
@@ -536,7 +526,7 @@ public class MapHandler : MonoBehaviour
                 col.Sort(csrt);
                 for (int i = 1; i < col.Count; i++)
                 {
-                    var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+                    var weight = UnityEngine.Random.Range(0.0f, 10.0f);
                     weight += col[i - 1].GetComponent<TileHandler>().GetPathWeight();
                     weight += col[i].GetComponent<TileHandler>().GetPathWeight();
                     var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
@@ -552,7 +542,7 @@ public class MapHandler : MonoBehaviour
 
         for (int x = 0; x < width; x++)
         {
-            var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+            var weight = UnityEngine.Random.Range(0.0f, 10.0f);
             weight += topCols[x][0].GetComponent<TileHandler>().GetPathWeight();
             weight += botCols[x].Last().GetComponent<TileHandler>().GetPathWeight();
             var cpn1 = topCols[x][0].GetComponent<MoveToTarget>();
@@ -571,7 +561,7 @@ public class MapHandler : MonoBehaviour
                 col.Sort(rsrt);
                 for (int i = 1; i < col.Count; i++)
                 {
-                    var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+                    var weight = UnityEngine.Random.Range(0.0f, 10.0f);
                     weight += col[i - 1].GetComponent<TileHandler>().GetPathWeight();
                     weight += col[i].GetComponent<TileHandler>().GetPathWeight();
                     var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
@@ -586,7 +576,7 @@ public class MapHandler : MonoBehaviour
         }
         for (int y = 0; y < width; y++)
         {
-            var weight = UnityEngine.Random.Range(0.0f, 100.0f);
+            var weight = UnityEngine.Random.Range(0.0f, 10.0f);
             weight += rightRows[y][0].GetComponent<TileHandler>().GetPathWeight();
             weight += leftRows[y].Last().GetComponent<TileHandler>().GetPathWeight();
             var cpn1 = rightRows[y][0].GetComponent<MoveToTarget>();
@@ -598,8 +588,6 @@ public class MapHandler : MonoBehaviour
             }
         }
 
-
-        Debug.Log(graph.Count);
         //Add edges to cities
         int c1 = 0;
         int c2 = width;
@@ -640,19 +628,24 @@ public class MapHandler : MonoBehaviour
         for (int i = 0; i < this.transform.childCount; i++)
         {
             var child = this.transform.GetChild(i);
-            if (freeFields.Contains(coordToID(child)) && child.gameObject.tag == "Tile")
-            {
-                toDestroy.Add(i);
-            }
+            if (child.gameObject.tag == "Tile")
+                if (freeFields.Contains(coordToID(child.GetComponent<MoveToTarget>().target)))
+                {
+                    toDestroy.Add(i);
+                }
         }
         foreach(int i in toDestroy)
         {
             var child = this.transform.GetChild(i);
             var x = (int)child.GetComponent<MoveToTarget>().target.x;
             var y = (int)child.GetComponent<MoveToTarget>().target.z;
-            if (y >= height || ((x < 2 || x >= width - 2) && y >= height - 2) || x < 0 || ((y < 2 || y >= height - 2) && x < 2))
-
-                Debug.Log((x, y));
+            if (
+                y >= height || ((x < 2 || x >= width - 2) && y >= height - 2) || 
+                x < 0 || ((y < 2 || y >= height - 2) && x < 2) ||
+                x >= width || ((y < 2 || y >= height - 2) && x >= width - 2) ||
+                y < 0 || ((x < 2 || x >= width - 2) && y < 2)
+                )
+                continue;
             GameObject tile = spawnTile(child.gameObject.GetComponent<MoveToTarget>().target, false);
 
             if (x >= width / 2)
