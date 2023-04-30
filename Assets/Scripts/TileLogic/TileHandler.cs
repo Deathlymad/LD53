@@ -42,11 +42,11 @@ public class TileHandler : MonoBehaviour
             w -= v.weight;
             if (w <= 0.01f && v.prefab != null)
             {
-                float scaleFactor = UnityEngine.Random.Range(0.1f, 1.0f);
+                float scaleFactor = UnityEngine.Random.Range(0.1f, 0.7f);
                 GameObject obj = Instantiate(v.prefab);
                 obj.transform.parent = transform;
                 obj.transform.position = Vector3.zero;
-                obj.transform.localPosition = offset;
+                obj.transform.localPosition = offset + new Vector3(UnityEngine.Random.Range(-xScale, xScale), 0.0f, UnityEngine.Random.Range(-yScale, yScale));
                 obj.transform.rotation = Quaternion.AngleAxis(UnityEngine.Random.Range(0, 340), Vector3.up);
                 obj.transform.localScale = new Vector3(xScale, 1, yScale) * scaleFactor;
                 return;
