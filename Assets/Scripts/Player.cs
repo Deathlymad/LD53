@@ -8,44 +8,62 @@ public class Player : MonoBehaviour
     public float rotSpeed = 0.02f;
     public Animator playerAnim;
 
+    private bool canMove = true;
+
     // Start is called before the first frame update
     void Start()
     {
     }
+
+    public void enterCity()
+    {
+        canMove = false;
+    }
+    public void leaveCity()
+    {
+        canMove = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
         bool isDown = false;
-
-        if (Input.GetKey("w"))
+        if (canMove)
         {
-            transform.position += transform.forward * moveSpeed * Time.deltaTime;
-            isDown |= true;
+            if (Input.GetKey("w"))
+            {
+                transform.position += transform.forward * moveSpeed * Time.deltaTime;
+                isDown |= true;
+            }
+            if (Input.GetKey("a"))
+            {
+                transform.position -= transform.right * moveSpeed * Time.deltaTime;
+                isDown |= true;
+            }
+            if (Input.GetKey("s"))
+            {
+                transform.position -= transform.forward * moveSpeed * Time.deltaTime;
+                isDown |= true;
+            }
+            if (Input.GetKey("d"))
+            {
+                transform.position += transform.right * moveSpeed * Time.deltaTime;
+                isDown |= true;
+            }
+            if (Input.GetKey("q"))
+            {
+                transform.rotation *= Quaternion.AngleAxis(-rotSpeed * Time.deltaTime, Vector3.up);
+                isDown |= true;
+            }
+            if (Input.GetKey("e"))
+            {
+                transform.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime, Vector3.up);
+                isDown |= true;
+            }
         }
-        if (Input.GetKey("a"))
+        if (Input.GetKey("x"))
         {
-            transform.position -= transform.right * moveSpeed * Time.deltaTime;
-            isDown |= true;
-        }
-        if (Input.GetKey("s"))
-        {
-            transform.position -= transform.forward * moveSpeed * Time.deltaTime;
-            isDown |= true;
-        }
-        if (Input.GetKey("d"))
-        {
-            transform.position += transform.right * moveSpeed * Time.deltaTime;
-            isDown |= true;
-        }
-        if (Input.GetKey("q"))
-        {
-            transform.rotation *= Quaternion.AngleAxis(-rotSpeed*Time.deltaTime, Vector3.up);
-            isDown |= true;
-        }
-        if (Input.GetKey("e"))
-        {
-            transform.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime, Vector3.up);
-            isDown |= true;
+            leaveCity();
         }
 
         if (isDown)
@@ -58,16 +76,5 @@ public class Player : MonoBehaviour
             playerAnim.ResetTrigger("Running");
             playerAnim.SetTrigger("StopRunning");
         }
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Tile")
-            Debug.Log("EnteredPlayer");
-    }
-    public void OnTriggerExit(Collider collision)
-    {
-        if (collision.tag == "Tile")
-            Debug.Log("LeftPlayer");
     }
 }
