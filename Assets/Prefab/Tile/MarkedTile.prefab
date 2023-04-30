@@ -145,9 +145,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathWeight: 50
   isPassable: 0
-  freeWeight: 3
+  freeWeight: 12
   decorators:
-  - prefab: {fileID: 4350284231324803619, guid: d565b34fb3c889a46a461bd4aa7ddfad, type: 3}
+  - prefab: {fileID: 4419416605998716040, guid: c71ae954a5a23104aadebcb975a8936a, type: 3}
+    weight: 7
+  - prefab: {fileID: 2708915374326122636, guid: 8b33514b63d82d241a99b247af2276f7, type: 3}
+    weight: 7
+  - prefab: {fileID: 3049782624841083968, guid: 20763fd5c665699409c5f6720988ae0b, type: 3}
     weight: 7
   x: 5
   y: 5
