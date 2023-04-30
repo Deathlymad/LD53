@@ -64,3 +64,5 @@ crashlytics-build.properties
 [Uu]ser[Ss]ettings
 ProjectSettings/ProjectSettings.asset
 ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
+Assets/workspace.mel
+*.swatch
