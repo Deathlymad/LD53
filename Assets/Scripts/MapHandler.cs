@@ -107,22 +107,22 @@ public class MapHandler : MonoBehaviour
         //bottom left city
         GameObject city = Instantiate(CityObject);
         city.transform.parent = transform;
-        city.transform.localRotation = Quaternion.AngleAxis(0.0f, Vector3.up);
+        city.transform.Rotate(0, 180, 0);
+        city.transform.position = new Vector3(0.5f, 0, 0.5f);
         //bottom right city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
-        city.transform.position = new Vector3(width - 2.0f, 0, 0);
-        city.transform.localRotation = Quaternion.AngleAxis(0.0f, Vector3.up);
+        city.transform.position = new Vector3(width - 1.5f, 0, 0.5f);
+        city.transform.Rotate(0, 90, 0);
         //top left city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
-        city.transform.position = new Vector3(0, 0, height - 2.0f);
-        city.transform.localRotation = Quaternion.AngleAxis(0.0f, Vector3.up);
+        city.transform.position = new Vector3(0.5f, 0, height - 1.5f);
+        city.transform.Rotate(0, -90, 0);
         //top right city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
-        city.transform.position = new Vector3(width - 2.0f, 0, height - 2.0f);
-        city.transform.localRotation = Quaternion.AngleAxis(0.0f, Vector3.up);
+        city.transform.position = new Vector3(width - 1.5f, 0, height - 1.5f);
     }
     private void generateTiles()
     {
@@ -616,25 +616,49 @@ public class MapHandler : MonoBehaviour
 
 
         //C4 (top right)
-        for (int i = 1; i <= city_size; i++)
+        for (int i = 0; i < city_size; i++)
             graph.Add(new Edge(c4, height * (width - city_size - 1) + height - city_size - 1 + i, 0.0f));
         for (int i = 0; i < city_size; i++)
-            graph.Add(new Edge(c4, height * (width - city_size - 1 + i) + height - city_size, 0.0f));
+            graph.Add(new Edge(c4, height * (width - city_size - 1 + i) + height - city_size - 1, 0.0f));
 
 
         int[] freeFields = AStar(graph, new int[] { c1, c2, c3, c4});
 
-        List<int> toDestroy = new List<int>();
+        HashSet<int> toDestroy = new HashSet<int>();
+        HashSet<int> cityBorders = new HashSet<int>();
+        //C0 (bottom left)
+        for (int i = 1; i < city_size; i++)
+            cityBorders.Add(height * i + city_size);
+        for (int i = 1; i <= city_size; i++)
+            cityBorders.Add(height * city_size + i);
+        //C1 (top left)
+        for (int i = 1; i < city_size; i++)
+            cityBorders.Add(height * i + height - city_size - 1);
+        for (int i = 0; i < city_size; i++)
+            cityBorders.Add(height * city_size + height - city_size - 1 + i);
+        //C3 (bottom right)
+        for (int i = 1; i <= city_size; i++)
+            cityBorders.Add(height * (width - city_size - 1) + i);
+        for (int i = 1; i < city_size; i++)
+            cityBorders.Add(height * (width - city_size - 1 + i) + city_size);
+        //C4 (top right)
+        for (int i = 0; i <= city_size; i++)
+            cityBorders.Add(height * (width - city_size - 1) + height - city_size - 1 + i);
+        for (int i = 0; i < city_size; i++)
+            cityBorders.Add(height * (width - city_size - 1 + i) + height - city_size - 1);
         for (int i = 0; i < this.transform.childCount; i++)
         {
             var child = this.transform.GetChild(i);
             if (child.gameObject.tag == "Tile")
-                if (freeFields.Contains(coordToID(child.GetComponent<MoveToTarget>().target)))
+                if (freeFields.Contains(coordToID(child.GetComponent<MoveToTarget>().target)) || cityBorders.Contains(coordToID(child.GetComponent<MoveToTarget>().target)))
                 {
                     toDestroy.Add(i);
                 }
         }
-        foreach(int i in toDestroy)
+        //clean around towns
+        
+        
+        foreach (int i in toDestroy)
         {
             var child = this.transform.GetChild(i);
             var x = (int)child.GetComponent<MoveToTarget>().target.x;
@@ -724,10 +748,10 @@ public class MapHandler : MonoBehaviour
 
 
         //C4 (top right)
-        for (int i = 1; i <= city_size; i++)
-            Gizmos.DrawSphere(new Vector3((width - city_size - 1), 0, height - city_size - 1 + i), 0.4f);
         for (int i = 0; i < city_size; i++)
-            Gizmos.DrawSphere(new Vector3((width - city_size - 1 + i), 0, height - city_size), 0.4f);
+            Gizmos.DrawSphere(new Vector3((width - city_size - 1), 0, height - city_size -1 + i), 0.4f);
+        for (int i = 0; i < city_size; i++)
+            Gizmos.DrawSphere(new Vector3((width - city_size - 1 + i), 0, height - city_size - 1), 0.4f);
     }
 
 }
