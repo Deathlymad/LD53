@@ -22,7 +22,6 @@ public class Item : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Test");
         if (other.gameObject.GetComponent<Player>())
         {
             other.gameObject.GetComponent<Player>().nearItem(this.gameObject);
