@@ -529,7 +529,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7387499389015412100}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &7387499389210662662
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,6 +652,10 @@ PrefabInstance:
       propertyPath: proxy
       value: 
       objectReference: {fileID: 6330503524946655145}
+    - target: {fileID: 4151771385415926568, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6008794944729818630, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
       propertyPath: m_RootOrder
       value: 1
