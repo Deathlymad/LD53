@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked; //move to static state
     }
     // Update is called once per frame
     void Update()
@@ -79,8 +79,7 @@ public class Player : MonoBehaviour
                 if (item != null && item.GetComponent<Item>() != null)
                 {
                     item.GetComponent<Item>().pickUp(this.gameObject);
-                    playerAnim.ResetTrigger("Running");
-                    playerAnim.SetTrigger("StopRunning");
+                    Stop();
                     playerAnim.SetTrigger("Interact");
                     Invoke("OnPickup", 17.0f / 24.0f); //counted by frames
                 }

@@ -6,6 +6,7 @@ public class CameraHandler : MonoBehaviour
 {
     public GameObject cameraCenter;
     public GameObject player;
+    public GameObject monsterPrefab;
     private Player playerComponent;
 
     public float turnFactor = 0.5f;
