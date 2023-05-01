@@ -16,6 +16,11 @@ public class UIController : MonoBehaviour
     void Start()
     {
         setDialogue();
+        freeRoam.SetActive(false);
+        general.SetActive(false);
+        city.SetActive(false);
+        dialogue.SetActive(false);
+        tooltip.SetActive(false);
     }
 
     void setFreeRoam()

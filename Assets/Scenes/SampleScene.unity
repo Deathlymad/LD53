@@ -233,6 +233,11 @@ MonoBehaviour:
   width: 20
   height: 20
   CityObject: {fileID: 13726885023369169, guid: 5258899b96e45d04494a5dccc5a59301, type: 3}
+  CityData:
+  - {fileID: 11400000, guid: 0e50b54c3d374404789aaab211ae409f, type: 2}
+  - {fileID: 11400000, guid: 93aeff528a6322b4091d63d2dcbbfdd4, type: 2}
+  - {fileID: 11400000, guid: c9f1d7d01a9e45246bc3c7fcc7d5519c, type: 2}
+  - {fileID: 11400000, guid: 582318e16bf1889468479e6b4c560c82, type: 2}
   tiles:
   - {fileID: 5452711869765922677, guid: 45b3a58f8275f104aa16003f58d3d39c, type: 3}
   - {fileID: 2919598432101731992, guid: c427b00f7198e954aaf898dc569446e9, type: 3}

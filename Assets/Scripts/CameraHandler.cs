@@ -81,6 +81,15 @@ public class CameraHandler : MonoBehaviour
         {
             shaking = !shaking;
         }
+
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            if ( Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.Confined;
+            else
+                Cursor.lockState = CursorLockMode.Locked;
+        }
+
         if (isDown)
             playerComponent.Walk();
         else
