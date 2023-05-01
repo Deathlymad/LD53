@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3869d4320d5c15248973b2bc0602321d
+guid: 838444193ac02ab469f0a3b2f4918b6c
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -10,7 +10,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Libre Caslon Text
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3869d4320d5c15248973b2bc0602321d, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
