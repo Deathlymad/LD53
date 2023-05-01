@@ -172,6 +172,17 @@ MonoBehaviour:
   thickness: 3
   width: 20
   height: 20
+--- !u!114 &515841109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2542644117231216897, guid: cf4924bfb0d12b2459730695802eecde, type: 3}
+  m_PrefabInstance: {fileID: 1334961874}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e7ad68a11f66a845aa56864ce7721e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &651272086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,6 +1363,10 @@ PrefabInstance:
       propertyPath: map
       value: 
       objectReference: {fileID: 651272089}
+    - target: {fileID: 7182948704021387736, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
+      propertyPath: uiController
+      value: 
+      objectReference: {fileID: 515841109}
     - target: {fileID: 7387499389015412097, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.32
