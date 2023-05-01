@@ -16,6 +16,9 @@ public class TileHandler : MonoBehaviour
     }
     public bool isPassable;
 
+    public float min = 0.8f;
+    public float max = 1.2f;
+
     public float freeWeight;
     public List<Decorator> decorators;
 
@@ -47,7 +50,7 @@ public class TileHandler : MonoBehaviour
             w -= v.weight;
             if (w <= 0.01f && v.prefab != null)
             {
-                float scaleFactor = UnityEngine.Random.Range(0.8f, 1.2f);
+                float scaleFactor = UnityEngine.Random.Range(min, max);
                 GameObject obj = Instantiate(v.prefab);
                 obj.transform.SetParent(transform, false);
                 obj.transform.position += offset + new Vector3(UnityEngine.Random.Range(-xScale / 4.0f, xScale / 4.0f), Math.Min(xScale, yScale) * scaleFactor * 0.5f, UnityEngine.Random.Range(-yScale / 4.0f, yScale / 4.0f));

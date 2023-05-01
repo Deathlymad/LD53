@@ -76,7 +76,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; //move to static state
     }
     // Update is called once per frame
     void Update()

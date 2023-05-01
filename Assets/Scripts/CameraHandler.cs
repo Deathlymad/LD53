@@ -19,6 +19,7 @@ public class CameraHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked; //move to static state
         playerComponent = player.GetComponent<Player>();
         cameraPosition = cameraCenter.transform.GetChild(0).localPosition;
     }

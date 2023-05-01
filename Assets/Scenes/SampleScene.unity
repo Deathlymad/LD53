@@ -234,8 +234,9 @@ MonoBehaviour:
   height: 20
   CityObject: {fileID: 13726885023369169, guid: 5258899b96e45d04494a5dccc5a59301, type: 3}
   tiles:
-  - {fileID: 5452711869765922677, guid: 59152b3263d7f9c4694111f60506d624, type: 3}
+  - {fileID: 5452711869765922677, guid: 45b3a58f8275f104aa16003f58d3d39c, type: 3}
   - {fileID: 2919598432101731992, guid: c427b00f7198e954aaf898dc569446e9, type: 3}
+  - {fileID: 2919598432101731992, guid: 868bdf07fc7618840a05e07fff31f775, type: 3}
 --- !u!1001 &862762876
 PrefabInstance:
   m_ObjectHideFlags: 0
