@@ -6,7 +6,7 @@ using UnityEngine;
 public class City : ScriptableObject
 {
     public string cityName;
-    public List<int> items;
+    public List<Artifact> items;
     public List<string> greetingFluff;
     
 }
