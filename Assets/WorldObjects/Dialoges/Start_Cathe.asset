@@ -19,7 +19,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
     nextLine: 01000000
   - speaker: Lightbearer
-    text: Yeah...
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 02000000
   - speaker: Bjorn
@@ -27,7 +27,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
     nextLine: 03000000
   - speaker: Lightbearer
-    text: Sure, here.
+    text: '[silence] - giving the Lavender to the Guard.'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 04000000
   - speaker: Bjorn
@@ -36,7 +36,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
     nextLine: 05000000
   - speaker: Lightbearer
-    text: Ok. For What?
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 06000000
   - speaker: Bjorn
@@ -44,7 +44,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
     nextLine: 07000000
   - speaker: Lightbearer
-    text: Hmm...
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 08000000
   - speaker: Bjorn

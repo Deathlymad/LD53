@@ -18,7 +18,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
     nextLine: 01000000
   - speaker: Lightbearer
-    text: Hmm...?
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 02000000
   - speaker: Sibannac
@@ -27,7 +27,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
     nextLine: 03000000
   - speaker: Lightbearer
-    text: Hmmm...
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 04000000
   - speaker: Sibannac
@@ -35,7 +35,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
     nextLine: 05000000
   - speaker: Lightbearer
-    text: I'm Markus.
+    text: '[silence] You are shrugging with your shoulders'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 06000000
   - speaker: Sibannac
@@ -59,7 +59,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
     nextLine: 0a000000
   - speaker: Lightbearer
-    text: What.... why?
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 0b000000
   - speaker: Sibannac

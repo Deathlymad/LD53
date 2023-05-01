@@ -19,7 +19,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: 01000000
   - speaker: Lightbearer
-    text: 'Hmmmm.... yeah. '
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 02000000
   - speaker: Rhuar
@@ -28,7 +28,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: 03000000
   - speaker: Lightbearer
-    text: Hmmm. The Lightrbearer. It seem's im just delivering?
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 04000000
   - speaker: Rhuar
@@ -37,7 +37,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: 05000000
   - speaker: Lightbearer
-    text: Erm... this?
+    text: '[silence] - hands over thew delivery to the guard.'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 06000000
   - speaker: Rhuar
@@ -52,7 +52,7 @@ MonoBehaviour:
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: 08000000
   - speaker: Lightbearer
-    text: Hmm...
+    text: '[silence]'
     speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 09000000
   - speaker: Rhuar
