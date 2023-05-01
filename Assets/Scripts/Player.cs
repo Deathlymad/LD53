@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 0.02f;
-    public float rotSpeed = 0.02f;
     public Animator playerAnim;
 
     public GameObject torchPrefab;
@@ -49,6 +47,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool IsMovable()
+    {
+        return canMove;
+    }
+    public void Walk()
+    {
+        playerAnim.ResetTrigger("StopRunning");
+        playerAnim.SetTrigger("Running");
+    }
+    public void Stop()
+    {
+        playerAnim.ResetTrigger("Running");
+        playerAnim.SetTrigger("StopRunning");
+    }
+
     //Called By Unity
     //=======================================================
     // Start is called before the first frame update
@@ -59,42 +72,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool isDown = false;
-        float turnFactor = 1.0f;
         if (canMove)
         {
-            if (Input.GetAxis("Mouse X") > 0.01 || Input.GetAxis("Mouse X") < -0.01)
-            {
-                transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X") * rotSpeed * Time.deltaTime, Vector3.up);
-                isDown |= true;
-                turnFactor = 0.8f;
-            }
-            else
-            {
-                turnFactor = 1.0f;
-            }
-            if (Input.GetKey("w"))
-            {
-                transform.position += transform.forward * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-            if (Input.GetKey("a"))
-            {
-                transform.position -= transform.right * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-            if (Input.GetKey("s"))
-            {
-                transform.position -= transform.forward * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-            if (Input.GetKey("d"))
-            {
-                transform.position += transform.right * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-
-
             if (Input.GetKeyDown("e"))
             {
                 if (item != null && item.GetComponent<Item>() != null)
@@ -122,15 +101,5 @@ public class Player : MonoBehaviour
             leaveCity();
         }
 
-        if (isDown)
-        {
-            playerAnim.ResetTrigger("StopRunning");
-            playerAnim.SetTrigger("Running");
-        }
-        else
-        {
-            playerAnim.ResetTrigger("Running");
-            playerAnim.SetTrigger("StopRunning");
-        }
     }
 }
