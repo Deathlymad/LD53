@@ -13,8 +13,16 @@ MonoBehaviour:
   m_Name: Iretua
   m_EditorClassIdentifier: 
   cityName: Iretua
-  cityMascot: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
-  visited: 0
-  acceptedArtifacts: []
+  items: []
   greetingFluff:
-  - {fileID: 11400000, guid: e5d87512e5438f8488fbac33a3d3c505, type: 2}
+  - "\"Oh! Didn\u2019t see you there! Welcome stranger! This is the beautiful city
+    of Iretua."
+  - "\"Oh! Didn\u2019t see you there! Welcome stranger! This is the beautiful city
+    of Iretua. I suppose you are the new lightbearer, right?"
+  - Wow! That is so exciting! I always like to meet new friends! I am Rhuar by the
+    way! Who are you?
+  - "\u201CThank you so much for your service, Lightbearer! Please take this to Briedale.
+    It is the Moonlight Koi. The museum of Briedale was very eager to purchase it
+    for their research."
+  - "\u201CAlright, friend! You are more than welcome to check out our beautiful
+    town! We have a lot of fish here! Take care!"
