@@ -9,5 +9,8 @@ public class Artifact : ScriptableObject
     public Sprite sprite;
     public City target;
     public List<string> descriptionFluff;
+    public Dialogue purchaseDialogue;
+    public Dialogue sellDialogue;
+    public Dialogue wrongSellDialogue;
 
 }

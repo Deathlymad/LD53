@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -139,7 +140,19 @@ public class UIController : MonoBehaviour
                         break;
                     }
                 if (hasTransferred)
-                    player.GetComponent<Inventory>().resolveArtifactTransaction(a, false);
+                {
+                    if (cityProvider.selfCity.name == a.target.name)
+                    {
+                        currentDialogue = a.sellDialogue;
+                        player.GetComponent<Inventory>().resolveArtifactTransaction(a, false);
+                    }
+                    else
+                    {
+                        currentDialogue = a.wrongSellDialogue;
+                    }
+                    if (currentDialogue != null)
+                        setupCityDialogue(0);
+                }
                 else
                 {
                     player.GetComponent<Inventory>().items[id] = a;
@@ -159,7 +172,12 @@ public class UIController : MonoBehaviour
                         break;
                     }
                 if (hasTransferred)
+                {
                     player.GetComponent<Inventory>().resolveArtifactTransaction(a, true);
+                    currentDialogue = a.purchaseDialogue;
+                    if (currentDialogue != null)
+                        setupCityDialogue(0);
+                }
                 else
                 {
                     currentCity.GetComponent<Inventory>().items[id] = a;
@@ -187,12 +205,14 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            //TODO lose
+            SceneManager.LoadScene("LoseState");
         }
     }
 
     public void setTorchCount(int i)
     {
+        if (i < 0)
+            SceneManager.LoadScene("LoseState");
         freeRoam.GetComponent<FreeRoamUIProxy>().setTorchCount(i);
     }
 
