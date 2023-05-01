@@ -7,7 +7,7 @@ public class Script_UI_Inv_Move : MonoBehaviour
     public GameObject _Panel;
     private Vector3 _Current_Position;
     private bool _Display;
-    private float _Move_Panel_Max = 200f;
+    private float _Move_Panel_Max = 350f;
     // Use this for initialization
     void Start()
     {
