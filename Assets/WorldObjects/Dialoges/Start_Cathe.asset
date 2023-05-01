@@ -14,7 +14,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue:
   - speaker: Bjorn
-    text: '"This is the city of Cathe. We are stone masons here. Welcome. You are
-      the new lightbearer from Briedale.'
+    text: This is the city of Cathe. We are stone masons here. Welcome. You are the
+      new lightbearer from Briedale, or?
     speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
-    nextLine: 
+    nextLine: 01000000
+  - speaker: Lightbearer
+    text: Yeah...
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 02000000
+  - speaker: Bjorn
+    text: Do you have the Swamp Lavender?
+    speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
+    nextLine: 03000000
+  - speaker: Lightbearer
+    text: Sure, here.
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 04000000
+  - speaker: Bjorn
+    text: "Thank you. This is from our town\u2019s mayor. It is a gift you have to
+      bring back to Briedale."
+    speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
+    nextLine: 05000000
+  - speaker: Lightbearer
+    text: Ok. For What?
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 06000000
+  - speaker: Bjorn
+    text: 'To live? It''s your job. '
+    speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
+    nextLine: 07000000
+  - speaker: Lightbearer
+    text: Hmm...
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 08000000
+  - speaker: Bjorn
+    text: 'Anyway, you can shop here in this town. Or sell. Or nothing. '
+    speakerImg: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
+    nextLine: ffffffff
