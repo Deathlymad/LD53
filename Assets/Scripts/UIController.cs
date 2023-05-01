@@ -186,6 +186,16 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void setTorchCount(int i)
+    {
+        freeRoam.GetComponent<FreeRoamUIProxy>().setTorchCount(i);
+    }
+
+    public void setTorchLevel(float i)
+    {
+        freeRoam.GetComponent<FreeRoamUIProxy>().setTorchLevel(i);
+    }
+
     // Update is called once per frame
     void Update()
     {
