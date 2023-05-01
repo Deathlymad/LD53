@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Tooltip : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void ShowTooltip()
     {
-        
+        gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void HideTooltip()
     {
-        
+        gameObject.SetActive(false);
     }
 }
