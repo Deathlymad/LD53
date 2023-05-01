@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 103557e0af648794ebb1fac90779163c, type: 3}
-  m_Name: Start_Briedale
+  m_Name: Iretua
   m_EditorClassIdentifier: 
   dialogue:
-  - speaker: Sibannac
-    text: Oh, welcome to the gates of the city of Briedale!
-    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
-    nextLine: 
+  - speaker: Bjorn
+    text: Oh, you again.... whats the matter?
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: ffffffff
