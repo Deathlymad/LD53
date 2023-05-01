@@ -174,6 +174,18 @@ public class UIController : MonoBehaviour
             general.GetComponent<GeneralUIProxy>().UpdateImagesOnSlots(player.GetComponent<Inventory>());
     }
 
+    public void quit()
+    {
+        if (currState == UIState.City)
+        {
+            setFreeRoam();
+            playerController.unlockMovement();
+            currentCity = null;
+            currentDialogue = null;
+            cityProvider = null;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

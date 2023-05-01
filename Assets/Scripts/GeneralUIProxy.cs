@@ -21,6 +21,8 @@ public class GeneralUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
 
     public Script_UI_Inv_Move inv;
 
+    public GameObject exitButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,17 +61,29 @@ public class GeneralUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
 
     public void onClick(GameObject obj)
     {
+        if (obj == exitButton)
+        {
+            controller.quit();
+            return;
+        }
+
         int id = -1;
         foreach (Slot s in artifactSlots)
         {
             if (s.SlotObj == obj)
+            {
                 id = s.id;
+                break;
+            }
         }
 
         foreach (Slot s in itemSlots)
         {
             if (s.SlotObj == obj)
+            {
                 id = s.id;
+                break;
+            }
         }
 
         controller.handleInventoryClick(id, true);
