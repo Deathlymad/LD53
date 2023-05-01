@@ -14,4 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cityName: Cathe
   items: []
-  greetingFluff: []
+  greetingFluff:
+  - This is the city of Cathe. We are stone masons here. Welcome.
+  - "This is the city of Cathe. We are stone masons here. Welcome. You are the new
+    lightbearer from Briedale.\u201D"
+  - Do you have the Swamp Lavender?
+  - "Thank you. This is from our town\u2019s mayor. It is a gift you  have to bring
+    back to Briedale"
+  - You can shop here in this town. Or sell. Or nothing.
