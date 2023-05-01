@@ -3,7 +3,12 @@ guid: 2a9c2392b127f5e4db2c8730e09684a3
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: smallassets_opacity
+    second: {fileID: 2100000, guid: ef51e57f8f944c94181810d079321ffe, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
