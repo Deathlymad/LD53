@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 0.02f;
-    public float rotSpeed = 0.02f;
     public Animator playerAnim;
 
     public GameObject torchPrefab;
@@ -48,71 +46,61 @@ public class Player : MonoBehaviour
             Destroy(item);
         }
     }
+    public void OnPlaceTorch()
+    {
+        GameObject obj = Instantiate(torchPrefab);
+
+        if (map.getTileFromPosition(transform.position))
+        {
+            obj.transform.parent = map.getTileFromPosition(transform.position).transform;
+            obj.transform.position = transform.position;
+            obj.transform.localScale *= 0.5f;
+            Invoke("leaveCity", 17.0f / 24.0f); //counted by frames
+        }
+    }
+
+    public bool IsMovable()
+    {
+        return canMove;
+    }
+    public void Walk()
+    {
+        playerAnim.ResetTrigger("StopRunning");
+        playerAnim.SetTrigger("Running");
+    }
+    public void Stop()
+    {
+        playerAnim.ResetTrigger("Running");
+        playerAnim.SetTrigger("StopRunning");
+    }
 
     //Called By Unity
     //=======================================================
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
     }
     // Update is called once per frame
     void Update()
     {
-        bool isDown = false;
-        float turnFactor = 1.0f;
         if (canMove)
         {
-            if (Input.GetAxis("Mouse X") > 0.01 || Input.GetAxis("Mouse X") < -0.01)
-            {
-                transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X") * rotSpeed * Time.deltaTime, Vector3.up);
-                isDown |= true;
-                turnFactor = 0.8f;
-            }
-            else
-            {
-                turnFactor = 1.0f;
-            }
-            if (Input.GetKey("w"))
-            {
-                transform.position += transform.forward * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-            if (Input.GetKey("a"))
-            {
-                transform.position -= transform.right * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-            if (Input.GetKey("s"))
-            {
-                transform.position -= transform.forward * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-            if (Input.GetKey("d"))
-            {
-                transform.position += transform.right * turnFactor * moveSpeed * Time.deltaTime;
-                isDown |= true;
-            }
-
-
             if (Input.GetKeyDown("e"))
             {
                 if (item != null && item.GetComponent<Item>() != null)
                 {
                     item.GetComponent<Item>().pickUp(this.gameObject);
-                    playerAnim.ResetTrigger("Running");
-                    playerAnim.SetTrigger("StopRunning");
+                    Stop();
+                    enterCity();
                     playerAnim.SetTrigger("Interact");
                     Invoke("OnPickup", 17.0f / 24.0f); //counted by frames
                 }
                 else
                 {
-                    GameObject obj = Instantiate(torchPrefab);
-
-                    obj.transform.parent = map.getTileFromPosition(transform.position).transform;
-                    Debug.Log(transform.position);
-                    Debug.Log(obj.transform.parent.position);
-                    obj.transform.position = transform.position;
+                    Stop();
+                    enterCity();
+                    playerAnim.SetTrigger("Interact");
+                    Invoke("OnPlaceTorch", 17.0f / 24.0f); //counted by frames
                 }
             }
             
@@ -122,15 +110,5 @@ public class Player : MonoBehaviour
             leaveCity();
         }
 
-        if (isDown)
-        {
-            playerAnim.ResetTrigger("StopRunning");
-            playerAnim.SetTrigger("Running");
-        }
-        else
-        {
-            playerAnim.ResetTrigger("Running");
-            playerAnim.SetTrigger("StopRunning");
-        }
     }
 }
