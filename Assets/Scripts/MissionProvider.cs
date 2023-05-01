@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class MissionProvider : MonoBehaviour
 {
-    public class Mission
-    {
-        public City start;
-        public City target;
-        public int reward;
-        public Artifact goods;
-    };
 
     public City selfCity;
     public List<City> targets;

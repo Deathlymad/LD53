@@ -12,6 +12,16 @@ public class UIController : MonoBehaviour
 
     private int test = 0;
 
+    private GameObject currentCity;
+    private MissionProvider cityProvider;
+
+    private GameObject player;
+    private Player playerController;
+    private MissionReceiver playerReceiver;
+
+    private Mission mission;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +56,34 @@ public class UIController : MonoBehaviour
         city.SetActive(false);
         dialogue.SetActive(true);
         tooltip.SetActive(false);
+    }
+
+    public void OnCityEnter(GameObject city, GameObject player)
+    {
+        currentCity = city;
+        cityProvider = currentCity.GetComponent<MissionProvider>();
+        this.player = player;
+        playerController = player.GetComponent<Player>();
+        playerReceiver = player.GetComponent<MissionReceiver>();
+        setDialogue();
+
+        if (currentCity != null)
+        {
+            setupCityDialogue();
+        }
+    }
+
+    void setupCityDialogue()
+    {
+        dialogue.GetComponent<DialogueUIProxy>().SetDialogueName(cityProvider.selfCity.name);
+        dialogue.GetComponent<DialogueUIProxy>().SetDialogueText(cityProvider.selfCity.GetRandomGreeting());
+    }
+
+    public void CompleteDialogue()
+    {
+        setCity();
+
+        //TODO continue;
     }
 
     // Update is called once per frame
