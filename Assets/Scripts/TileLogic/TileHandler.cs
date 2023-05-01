@@ -13,6 +13,7 @@ public class TileHandler : MonoBehaviour
         public GameObject prefab;
         public float weight;
         public bool passable;
+        public float scaleFactor = 1.0f;
     }
     public bool isPassable;
 
@@ -56,7 +57,7 @@ public class TileHandler : MonoBehaviour
                 obj.transform.position += offset + new Vector3(UnityEngine.Random.Range(-xScale / 4.0f, xScale / 4.0f), Math.Min(xScale, yScale) * scaleFactor * 0.5f, UnityEngine.Random.Range(-yScale / 4.0f, yScale / 4.0f));
                 obj.transform.rotation = Quaternion.AngleAxis(UnityEngine.Random.Range(0, 340), Vector3.up);
                 //obj.transform.localScale += Vector3.up;
-                obj.transform.localScale *= Math.Min(xScale, yScale) * scaleFactor;
+                obj.transform.localScale *= Math.Min(xScale, yScale) * scaleFactor * v.scaleFactor;
                 
                 return;
             }

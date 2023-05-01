@@ -11,7 +11,7 @@ public class Monster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animationWrapper.GetComponent<Player>().enterCity(); //disable inputs
+        animationWrapper.GetComponent<Player>().lockMovement(); //disable inputs
     }
 
     // Update is called once per frame

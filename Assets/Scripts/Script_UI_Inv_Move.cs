@@ -22,6 +22,14 @@ public class Script_UI_Inv_Move : MonoBehaviour
         _Panel.transform.position = _Current_Position;
     }
 
+    public void setState(bool display)
+    {
+        if (_Display != display)
+        {
+            Panel_Click();
+        }
+    }
+
     public void Panel_Click()
     {
         if (_Display)

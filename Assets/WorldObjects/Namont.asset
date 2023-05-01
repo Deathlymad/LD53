@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Namont
   m_EditorClassIdentifier: 
   cityName: Namont
-  items: []
-  greetingFluff: []
+  cityMascot: {fileID: 21300000, guid: 3d93138c9a68dc84c95275437e445fd6, type: 3}
+  visited: 0
+  acceptedArtifacts: []
+  greetingFluff:
+  - {fileID: 11400000, guid: 05894de15484d7e4c9de37602efbed4b, type: 2}
+  - {fileID: 11400000, guid: 05894de15484d7e4c9de37602efbed4b, type: 2}

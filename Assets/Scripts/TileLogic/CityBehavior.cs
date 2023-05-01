@@ -27,7 +27,7 @@ public class CityBehavior : MonoBehaviour
         if (other.gameObject.GetComponent<Player>() != null)
         {
             Player obj = other.gameObject.GetComponent<Player>();
-            obj.enterCity();
+            obj.enterCity(this.gameObject);
         }
         Debug.Log("Entered City");
     }
@@ -39,7 +39,7 @@ public class CityBehavior : MonoBehaviour
         if (other.gameObject.GetComponent<Player>() != null)
         {
             Player obj = other.gameObject.GetComponent<Player>();
-            obj.leaveCity();
+            obj.unlockMovement();
         }
         Debug.Log("Left City");
     }

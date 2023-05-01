@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Briedale
   m_EditorClassIdentifier: 
   cityName: Briedale
-  items: []
-  greetingFluff: []
+  cityMascot: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+  visited: 0
+  acceptedArtifacts: []
+  greetingFluff:
+  - {fileID: 11400000, guid: 837f557fc5653164a805f70a21748548, type: 2}
+  - {fileID: 11400000, guid: be538fca0b343154387a20d7c8533e48, type: 2}

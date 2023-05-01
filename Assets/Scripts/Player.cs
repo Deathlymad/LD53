@@ -11,19 +11,26 @@ public class Player : MonoBehaviour
 
     private bool canMove = true;
     private GameObject item = null;
+    public UIController uiController;
 
 
     //Called By Other Scripts
     //=======================================================
-    public void enterCity()
+    public void lockMovement()
     {
         canMove = false;
-        //TODO open UI
     }
-    public void leaveCity()
+    public void unlockMovement()
     {
         canMove = true;
     }
+    public void enterCity(GameObject city)
+    {
+        lockMovement();
+        Cursor.lockState = CursorLockMode.Confined; //unlock mouse
+        uiController.OnCityEnter(city);
+    }
+
     public void nearItem(GameObject itm) //store items you can collect
     {
         item = itm;
@@ -34,6 +41,7 @@ public class Player : MonoBehaviour
             item = null;
     }
 
+    public void useItem(int id) { } //TODO
 
     //Called By Animations
     //=======================================================
@@ -55,7 +63,7 @@ public class Player : MonoBehaviour
             obj.transform.parent = map.getTileFromPosition(transform.position).transform;
             obj.transform.position = transform.position;
             obj.transform.localScale *= 0.5f;
-            Invoke("leaveCity", 17.0f / 24.0f); //counted by frames
+            Invoke("unlockMovement", 17.0f / 24.0f); //counted by frames
         }
     }
 
@@ -91,14 +99,14 @@ public class Player : MonoBehaviour
                 {
                     item.GetComponent<Item>().pickUp(this.gameObject);
                     Stop();
-                    enterCity();
+                    lockMovement();
                     playerAnim.SetTrigger("Interact");
                     Invoke("OnPickup", 17.0f / 24.0f); //counted by frames
                 }
                 else
                 {
                     Stop();
-                    enterCity();
+                    lockMovement();
                     playerAnim.SetTrigger("Interact");
                     Invoke("OnPlaceTorch", 17.0f / 24.0f); //counted by frames
                 }
@@ -107,7 +115,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey("x"))
         {
-            leaveCity();
+            unlockMovement();
         }
 
     }

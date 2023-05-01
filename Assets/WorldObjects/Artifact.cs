@@ -6,6 +6,7 @@ using UnityEngine;
 public class Artifact : ScriptableObject
 {
     public string artifactName;
+    public Sprite sprite;
     public City target;
     public List<string> descriptionFluff;
 
