@@ -20,7 +20,7 @@ public class MissionProvider : MonoBehaviour
         m.start = selfCity;
         m.reward = UnityEngine.Random.Range(10, 100); //this should not be as random
         m.target = targets[UnityEngine.Random.Range(0, targets.Count)];
-        m.goods = m.target.items[UnityEngine.Random.Range(0, m.target.items.Count)];
+        m.goods = m.target.acceptedArtifacts[UnityEngine.Random.Range(0, m.target.acceptedArtifacts.Count)];
 
         return m;
     }

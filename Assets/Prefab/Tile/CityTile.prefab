@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4371663500834396517}
   - component: {fileID: 5714114013411529414}
   - component: {fileID: 8819171384845049085}
+  - component: {fileID: 3441906505474063835}
   m_Layer: 0
   m_Name: CityTile
   m_TagString: Untagged
@@ -103,6 +104,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selfCity: {fileID: 0}
   targets: []
+--- !u!114 &3441906505474063835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13726885023369169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c75e5e9b0492fd4a92ab0d8a5c3503d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSize: 15
+  money: -1
+  items: []
 --- !u!1 &820878430363937366
 GameObject:
   m_ObjectHideFlags: 0

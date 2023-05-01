@@ -6,8 +6,9 @@ using UnityEngine;
 public class City : ScriptableObject
 {
     public string cityName;
+    public Sprite cityMascot;
     public bool visited = false;
-    public List<Artifact> items;
+    public List<Artifact> acceptedArtifacts;
     public List<Dialogue> greetingFluff;
     
     public Dialogue GetRandomDialogue()

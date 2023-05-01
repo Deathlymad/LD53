@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     {
         lockMovement();
         Cursor.lockState = CursorLockMode.Confined; //unlock mouse
-        uiController.OnCityEnter(city, this.gameObject);
+        uiController.OnCityEnter(city);
     }
 
     public void nearItem(GameObject itm) //store items you can collect
@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
             item = null;
     }
 
+    public void useItem(int id) { } //TODO
 
     //Called By Animations
     //=======================================================

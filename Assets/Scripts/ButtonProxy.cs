@@ -17,7 +17,7 @@ public class ButtonProxy : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousePos = Input.mousePosition;
-            Debug.Log(mousePos);
+
             var rectTransform = GetComponent<RectTransform>();
             float width = rectTransform.rect.width;
             float height = rectTransform.rect.height;

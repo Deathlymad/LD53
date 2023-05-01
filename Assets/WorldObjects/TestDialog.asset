@@ -15,8 +15,8 @@ MonoBehaviour:
   dialogue:
   - speaker: Townguarrd
     text: Bla Bla Bla
-    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
-    nextLine: 000000000100000002000000ffffffff
+    speakerImg: {fileID: 21300000, guid: 3d93138c9a68dc84c95275437e445fd6, type: 3}
+    nextLine: 000000000100000001000000ffffffff
   - speaker: Lightbearer
     text: Bla Bla Bla
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}

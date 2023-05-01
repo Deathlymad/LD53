@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,18 @@ public class UIController : MonoBehaviour
     public GameObject dialogue;
     public GameObject tooltip;
 
-    private int test = 0;
+    public enum UIState
+    {
+        FreeRoam,
+        City,
+        Dialogue
+    }
+    private UIState currState = UIState.FreeRoam;
 
     private GameObject currentCity;
     private MissionProvider cityProvider;
 
-    private GameObject player;
+    public GameObject player;
     private Player playerController;
     private MissionReceiver playerReceiver;
 
@@ -28,6 +35,14 @@ public class UIController : MonoBehaviour
     void Start()
     {
         setFreeRoam();
+        Invoke("setupPlayer", 1.0f);
+    }
+
+    void setupPlayer()
+    {
+        playerController = player.GetComponent<Player>();
+        playerReceiver = player.GetComponent<MissionReceiver>();
+        general.GetComponent<GeneralUIProxy>().UpdateImagesOnSlots(player.GetComponent<Inventory>());
     }
 
     void setFreeRoam()
@@ -37,6 +52,8 @@ public class UIController : MonoBehaviour
         city.SetActive(false);
         dialogue.SetActive(false);
         tooltip.SetActive(false);
+        currState = UIState.FreeRoam;
+        general.GetComponent<GeneralUIProxy>().retract();
     }
     void setCity()
     {
@@ -45,6 +62,15 @@ public class UIController : MonoBehaviour
         city.SetActive(true);
         dialogue.SetActive(false);
         tooltip.SetActive(false);
+        currState = UIState.City;
+
+        if (currentCity != null)
+        {
+            city.GetComponent<CityUIProxy>().setShopImage(cityProvider.selfCity.cityMascot);
+            city.GetComponent<CityUIProxy>().UpdateImagesOnSlots(currentCity.GetComponent<Inventory>());
+        }
+
+        general.GetComponent<GeneralUIProxy>().pullOut();
     }
     void setDialogue()
     {
@@ -53,15 +79,14 @@ public class UIController : MonoBehaviour
         city.SetActive(false);
         dialogue.SetActive(true);
         tooltip.SetActive(false);
+        currState = UIState.Dialogue;
+        general.GetComponent<GeneralUIProxy>().retract();
     }
 
-    public void OnCityEnter(GameObject city, GameObject player)
+    public void OnCityEnter(GameObject city)
     {
         currentCity = city;
         cityProvider = currentCity.GetComponent<MissionProvider>();
-        this.player = player;
-        playerController = player.GetComponent<Player>();
-        playerReceiver = player.GetComponent<MissionReceiver>();
         setDialogue();
 
         if (currentCity != null)
@@ -87,28 +112,70 @@ public class UIController : MonoBehaviour
         {
             setCity();
         }
-        //TODO continue;
+    }
+
+    public void handleInventoryClick(int id, bool p)
+    {
+        if (currState != UIState.City)
+        {
+            if (player)
+                throw new ArgumentException("Can't deal with CityUI without it being active");
+
+            playerController.useItem(id);
+        }
+        else
+        {
+            if (p)
+            {
+                //Player to City
+                Artifact a = player.GetComponent<Inventory>().items[id];
+                player.GetComponent<Inventory>().items[id] = null;
+                bool hasTransferred = false;
+                for (int i = 0; i < currentCity.GetComponent<Inventory>().items.Length; i++)
+                    if (currentCity.GetComponent<Inventory>().items[i] == null)
+                    {
+                        currentCity.GetComponent<Inventory>().items[i] = a;
+                        hasTransferred = true;
+                        break;
+                    }
+                if (hasTransferred)
+                    player.GetComponent<Inventory>().resolveArtifactTransaction(a, false);
+                else
+                {
+                    player.GetComponent<Inventory>().items[id] = a;
+                }
+            }
+            else
+            {
+                //City to Player
+                Artifact a = currentCity.GetComponent<Inventory>().items[id];
+                currentCity.GetComponent<Inventory>().items[id] = null;
+                bool hasTransferred = false;
+                for (int i = 0; i < player.GetComponent<Inventory>().items.Length; i++)
+                    if (player.GetComponent<Inventory>().items[i] == null)
+                    {
+                        player.GetComponent<Inventory>().items[i] = a;
+                        hasTransferred = true;
+                        break;
+                    }
+                if (hasTransferred)
+                    player.GetComponent<Inventory>().resolveArtifactTransaction(a, true);
+                else
+                {
+                    currentCity.GetComponent<Inventory>().items[id] = a;
+                }
+            }
+        }
+
+        //update inventory rendering
+        if (currentCity != null)
+            city.GetComponent<CityUIProxy>().UpdateImagesOnSlots(currentCity.GetComponent<Inventory>());
+        if (player != null)
+            general.GetComponent<GeneralUIProxy>().UpdateImagesOnSlots(player.GetComponent<Inventory>());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("t"))
-        {
-            test += 1;
-            test = test % 3;
-            switch (test)
-            {
-                case 0:
-                    setFreeRoam();
-                    break;
-                case 1:
-                    setCity();
-                    break;
-                case 2:
-                    setDialogue();
-                    break;
-            }
-        }
     }
 }
