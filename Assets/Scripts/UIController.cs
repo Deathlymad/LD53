@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -204,12 +205,14 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            //TODO lose
+            SceneManager.LoadScene("LoseState");
         }
     }
 
     public void setTorchCount(int i)
     {
+        if (i < 0)
+            SceneManager.LoadScene("LoseState");
         freeRoam.GetComponent<FreeRoamUIProxy>().setTorchCount(i);
     }
 
