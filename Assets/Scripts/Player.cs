@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Animator playerAnim;
+    public PlayerTorchHandler bearer;
 
     public GameObject torchPrefab;
     public MapHandler map;
@@ -19,16 +20,24 @@ public class Player : MonoBehaviour
     public void lockMovement()
     {
         canMove = false;
+        if (bearer != null)
+            bearer.PauseAnimation();
     }
     public void unlockMovement()
     {
         canMove = true;
+        bearer.PlayAnimation();
     }
     public void enterCity(GameObject city)
     {
         lockMovement();
         Cursor.lockState = CursorLockMode.Confined; //unlock mouse
         uiController.OnCityEnter(city);
+
+
+        bearer.obj.torches = 9;
+        uiController.setTorchCount(bearer.obj.torches);
+        bearer.ForceUpdate();
     }
 
     public void nearItem(GameObject itm) //store items you can collect
@@ -48,6 +57,7 @@ public class Player : MonoBehaviour
     public void OnPickup()
     {
         playerAnim.ResetTrigger("Interact");
+        unlockMovement();
         //TODO add to inventory
         if (item != null)
         {
@@ -64,6 +74,12 @@ public class Player : MonoBehaviour
             obj.transform.position = transform.position;
             obj.transform.localScale *= 0.5f;
             Invoke("unlockMovement", 17.0f / 24.0f); //counted by frames
+        }
+        if (bearer.obj.torches > 0)
+        {
+            bearer.obj.torches -= 1;
+            uiController.setTorchCount(bearer.obj.torches);
+            bearer.ForceUpdate();
         }
     }
 
