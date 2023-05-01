@@ -769,10 +769,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraCenter: {fileID: 7387499389226426580}
   player: {fileID: 6330503524946655145}
+  monsterPrefab: {fileID: 0}
   turnFactor: 0.3
-  moveSpeed: 0.02
+  moveSpeed: 0.1
   rotSpeed: 15
-  shakeAmount: 0.03
+  shakeAmount: 0.02
   shaking: 0
 --- !u!1 &7387499389226426580
 GameObject:
