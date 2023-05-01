@@ -6,6 +6,7 @@ using UnityEngine;
 public class City : ScriptableObject
 {
     public string cityName;
+    public bool visited = false;
     public List<Artifact> items;
     public List<Dialogue> greetingFluff;
     
@@ -14,7 +15,10 @@ public class City : ScriptableObject
         if (greetingFluff.Count == 0)
             return null;
 
-        return greetingFluff[UnityEngine.Random.Range(0, greetingFluff.Count)];
+        if (!visited)
+            return greetingFluff[0];
+
+        return greetingFluff[UnityEngine.Random.Range(1, greetingFluff.Count)];
     }
 
 }
