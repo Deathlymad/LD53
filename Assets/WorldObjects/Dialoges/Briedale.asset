@@ -16,4 +16,4 @@ MonoBehaviour:
   - speaker: Sibannac
     text: 'Damn, you''re still alive? At your Age i took an Arrow in the knee! '
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
-    nextLine: 
+    nextLine: ffffffff

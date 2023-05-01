@@ -109,7 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   torchAnim: {fileID: 8064833477337306746}
+  proxy: {fileID: 0}
   torches: 3
+  maxPower: 3
   burnTime: 10
 --- !u!95 &8064833477337306746
 Animator:
@@ -337,6 +339,7 @@ GameObject:
   - component: {fileID: 215550265841130685}
   - component: {fileID: 3381649588393639565}
   - component: {fileID: 5666787870678633882}
+  - component: {fileID: 6475857806273851104}
   m_Layer: 0
   m_Name: Lightbearer
   m_TagString: Untagged
@@ -374,6 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAnim: {fileID: 7387499388771259624}
+  bearer: {fileID: 6475857806273851104}
   torchPrefab: {fileID: 2669207973058700100, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
   map: {fileID: 0}
   uiController: {fileID: 0}
@@ -418,6 +422,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ddfed911eaec034a8c240842b9563c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6475857806273851104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6330503524946655145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f705deb7483494f94ac4c31c185f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  obj: {fileID: 8131087278361039363}
 --- !u!1 &7387499389015412100
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,10 +631,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4805739778026346468}
     m_Modifications:
+    - target: {fileID: 1759282667249126286, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2669207973058700100, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
       propertyPath: m_Name
       value: Torch
       objectReference: {fileID: 0}
+    - target: {fileID: 2671409966504083377, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
+      propertyPath: proxy
+      value: 
+      objectReference: {fileID: 6330503524946655145}
     - target: {fileID: 6008794944729818630, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -675,6 +701,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
+--- !u!114 &8131087278361039363 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2671409966504083377, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
+  m_PrefabInstance: {fileID: 6180537350045674930}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09629e340856503468e7ecca9dfa9d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7387499388771259631
 PrefabInstance:
   m_ObjectHideFlags: 0

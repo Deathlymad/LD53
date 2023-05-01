@@ -14,8 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue:
   - speaker: Lourille
-    text: '"The new lightbearer I see? You certainly took your time. Welcome to the
+    text: The new lightbearer I see? You certainly took your time. Welcome to the
       gates of Namont. We are the city of prosperity and arcane mastery and take
-      a lot of pride in our research and discoveries.'
+      a lot of pride in our research and discoveries.
     speakerImg: {fileID: 21300000, guid: 3d93138c9a68dc84c95275437e445fd6, type: 3}
-    nextLine: 
+    nextLine: 01000000
+  - speaker: Lightbearer
+    text: '[silence]'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 02000000
+  - speaker: Lourille
+    text: 'As you might know, you carry something with you that we desire. A gift
+      from the city of Cathe. '
+    speakerImg: {fileID: 21300000, guid: 3d93138c9a68dc84c95275437e445fd6, type: 3}
+    nextLine: 03000000
+  - speaker: Lightbearer
+    text: '[silence] - gives the gift to the guard'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 04000000
+  - speaker: Lourille
+    text: 'Yes, that is about right. Exactly what we were looking for. Thank you
+      for your service. '
+    speakerImg: {fileID: 21300000, guid: 3d93138c9a68dc84c95275437e445fd6, type: 3}
+    nextLine: 05000000
+  - speaker: Lourille
+    text: If you care about science and mysteries, I invite you to visit our town.
+    speakerImg: {fileID: 21300000, guid: 3d93138c9a68dc84c95275437e445fd6, type: 3}
+    nextLine: ffffffff

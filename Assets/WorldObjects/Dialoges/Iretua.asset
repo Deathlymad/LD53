@@ -13,7 +13,20 @@ MonoBehaviour:
   m_Name: Iretua
   m_EditorClassIdentifier: 
   dialogue:
-  - speaker: Bjorn
-    text: Oh, you again.... whats the matter?
+  - speaker: Rhuar
+    text: 'Ah! you again! It was sooo awesome to talk to you earlier! '
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 01000000
+  - speaker: Rhuar
+    text: Do you want fish?
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 02000000
+  - speaker: Rhuar
+    text: Fresh fish?
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 03000000
+  - speaker: Rhuar
+    text: 'It''s really, really fresh! Hm, seems like you don''t want it though.
+      Take a look in our shops instead! '
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: ffffffff

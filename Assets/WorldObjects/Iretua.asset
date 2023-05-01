@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cityName: Iretua
   cityMascot: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
-  visited: 1
+  visited: 0
   acceptedArtifacts: []
   greetingFluff:
   - {fileID: 11400000, guid: 3fd2de232b8259045bd86e700f899c55, type: 2}

@@ -16,4 +16,69 @@ MonoBehaviour:
   - speaker: Sibannac
     text: Oh, welcome to the gates of the city of Briedale!
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
-    nextLine: 
+    nextLine: 01000000
+  - speaker: Lightbearer
+    text: '[silence]'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 02000000
+  - speaker: Sibannac
+    text: "For being imprisoned for two years you look quite healthy! Didn\u2019t
+      you catch a cold in the cells, Aye?"
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 03000000
+  - speaker: Lightbearer
+    text: '[silence]'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 04000000
+  - speaker: Sibannac
+    text: Not much of a talker, are you? What's your name?"
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 05000000
+  - speaker: Lightbearer
+    text: '[silence] - You are shrugging with your shoulders'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 06000000
+  - speaker: Sibannac
+    text: "Ohhh\u2026yeah I won\u2019t remember that anymore, people like you don\u2019t
+      last long out there."
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 07000000
+  - speaker: Sibannac
+    text: At least the guy before you didn't. Got lost on his second night. Poor
+      kid. He was really young.
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 08000000
+  - speaker: Sibannac
+    text: 'So, you are the city''s new lightbearer. I pity you! Have fun on the job
+      though. Take this torch. '
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 09000000
+  - speaker: Sibannac
+    text: 'It will light up the path before you, so you can see in the darkness of
+      the woods. '
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 0a000000
+  - speaker: Lightbearer
+    text: '[silence] - you take the Torches'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 0b000000
+  - speaker: Sibannac
+    text: 'You need to bring these herbs to the city of Cathe, it is located in the
+      North-East, at the edge of the woods. Mayor''s daughter is sick, needs them
+      soon. Aye. '
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 0b000000
+  - speaker: Sibannac
+    text: " Be careful, the forest is a real menace! They say it moves if you can\u2019t
+      see it\u2026But I certainly don\u2019t just wanna throw you in, you know?"
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: 0c000000
+  - speaker: Another, Grumpy and old Guard
+    text: Sibannac! Soup is ready!
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 0d000000
+  - speaker: Sibannac
+    text: Coming! Hopefully we see each other again, new one.... Marius? Was that
+      your name? Anyway, Bye! A hot Soup is waiting for me...
+    speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+    nextLine: ffffffff

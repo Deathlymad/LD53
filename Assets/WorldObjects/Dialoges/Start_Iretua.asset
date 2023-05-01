@@ -13,22 +13,50 @@ MonoBehaviour:
   m_Name: Start_Iretua
   m_EditorClassIdentifier: 
   dialogue:
-  - speaker: Iretua
+  - speaker: Rhuar
     text: "Oh! Didn\u2019t see you there! Welcome stranger! This is the beautiful
       city of Iretua. I suppose you are the new lightbearer, right?"
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: 01000000
-  - speaker: Iretua
-    text: 'As you might know, you carry something with you that we desire. A gift
-      from the city of Cathe. '
-    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+  - speaker: Lightbearer
+    text: '[silence]'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
     nextLine: 02000000
-  - speaker: Iretua
-    text: 'As you might know, you carry something with you that we desire. A gift
-      from the city of Cathe. '
+  - speaker: Rhuar
+    text: Wow! That is so exciting! I always like to meet new friends! I am Rhuar
+      by the way! Who are you?
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: 03000000
-  - speaker: Iretua
-    text: If you care about science and mysteries, I invite you to visit our town.
+  - speaker: Lightbearer
+    text: '[silence]'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 04000000
+  - speaker: Rhuar
+    text: You look quiet! That is okay, though. I am louder then! So, mysterious
+      lightbearer, do you have the artifact I am not supposed to talk about?
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 05000000
+  - speaker: Lightbearer
+    text: '[silence] - hands over thew delivery to the guard.'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 06000000
+  - speaker: Rhuar
+    text: Oh, well well! There it is! The infamous Lapis Lazuli of Cathe! It looks
+      stunning!
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 07000000
+  - speaker: Rhuar
+    text: Thank you so much for your service, Lightbearer! Please take this to Briedale.
+      It is the Moonlight Koi. The museum of Briedale was very eager to purchase
+      it for their research.
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 08000000
+  - speaker: Lightbearer
+    text: '[silence]'
+    speakerImg: {fileID: 21300000, guid: 96cc1e67a7b75ad41a9c6a8bb9f63b99, type: 3}
+    nextLine: 09000000
+  - speaker: Rhuar
+    text: Alright, friend! You are more than welcome to check out our beautiful town!
+      We have a lot of fish here! Take care!
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
     nextLine: ffffffff

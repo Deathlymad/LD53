@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103557e0af648794ebb1fac90779163c, type: 3}
   m_Name: Namont
   m_EditorClassIdentifier: 
-  dialogue: []
+  dialogue:
+  - speaker: Lourille
+    text: Interested in magical stuff which you can't afford anyways? Then you are
+      right here.
+    speakerImg: {fileID: 21300000, guid: 3d93138c9a68dc84c95275437e445fd6, type: 3}
+    nextLine: ffffffff
