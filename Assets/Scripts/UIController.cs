@@ -176,13 +176,18 @@ public class UIController : MonoBehaviour
 
     public void quit()
     {
-        if (currState == UIState.City)
+        if (currState == UIState.City || currState == UIState.Dialogue)
         {
             setFreeRoam();
             playerController.unlockMovement();
             currentCity = null;
             currentDialogue = null;
             cityProvider = null;
+            dialogueState = -1;
+        }
+        else
+        {
+            //TODO lose
         }
     }
 
