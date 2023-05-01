@@ -22,6 +22,13 @@ public class CameraHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; //move to static state
         playerComponent = player.GetComponent<Player>();
         cameraPosition = cameraCenter.transform.GetChild(0).localPosition;
+
+
+        HandleMovementSpeed[] foos = playerComponent.playerAnim.GetBehaviours<HandleMovementSpeed>();
+        foreach (var v in foos)
+        {
+            v.control = this;
+        }
     }
 
     void rotatePlayerToCamera()

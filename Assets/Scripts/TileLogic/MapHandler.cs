@@ -128,23 +128,27 @@ public class MapHandler : MonoBehaviour
         city.transform.Rotate(0, 180, 0);
         city.transform.position = new Vector3(0.5f, 0, 0.5f);
         city.GetComponent<CityBehavior>().data = CityData[0];
+        city.GetComponent<MissionProvider>().selfCity = CityData[0];
         //bottom right city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
         city.transform.position = new Vector3(width - 1.5f, 0, 0.5f);
         city.transform.Rotate(0, 90, 0);
         city.GetComponent<CityBehavior>().data = CityData[1];
+        city.GetComponent<MissionProvider>().selfCity = CityData[1];
         //top left city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
         city.transform.position = new Vector3(0.5f, 0, height - 1.5f);
         city.transform.Rotate(0, -90, 0);
         city.GetComponent<CityBehavior>().data = CityData[2];
+        city.GetComponent<MissionProvider>().selfCity = CityData[2];
         //top right city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
         city.transform.position = new Vector3(width - 1.5f, 0, height - 1.5f);
         city.GetComponent<CityBehavior>().data = CityData[3];
+        city.GetComponent<MissionProvider>().selfCity = CityData[3];
     }
     private void generateTiles()
     {

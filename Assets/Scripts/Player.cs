@@ -50,10 +50,13 @@ public class Player : MonoBehaviour
     {
         GameObject obj = Instantiate(torchPrefab);
 
-        obj.transform.parent = map.getTileFromPosition(transform.position).transform;
-        obj.transform.position = transform.position;
-        obj.transform.localScale *= 0.5f;
-        Invoke("leaveCity", 17.0f / 24.0f); //counted by frames
+        if (map.getTileFromPosition(transform.position))
+        {
+            obj.transform.parent = map.getTileFromPosition(transform.position).transform;
+            obj.transform.position = transform.position;
+            obj.transform.localScale *= 0.5f;
+            Invoke("leaveCity", 17.0f / 24.0f); //counted by frames
+        }
     }
 
     public bool IsMovable()
