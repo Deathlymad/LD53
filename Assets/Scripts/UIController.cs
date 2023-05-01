@@ -21,6 +21,8 @@ public class UIController : MonoBehaviour
 
     private Mission mission;
 
+    private Dialogue currentDialogue;
+    private int dialogueState = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -69,20 +71,27 @@ public class UIController : MonoBehaviour
 
         if (currentCity != null)
         {
-            setupCityDialogue();
+            currentDialogue = cityProvider.selfCity.GetRandomDialogue();
+            if (currentDialogue != null)
+                setupCityDialogue(0);
         }
     }
 
-    void setupCityDialogue()
+    void setupCityDialogue(int id)
     {
-        dialogue.GetComponent<DialogueUIProxy>().SetDialogueName(cityProvider.selfCity.name);
-        dialogue.GetComponent<DialogueUIProxy>().SetDialogueText(cityProvider.selfCity.GetRandomGreeting());
+        Dialogue.Line diag = currentDialogue.GetLine(id);
+        dialogue.GetComponent<DialogueUIProxy>().SetDialogue(diag);
+        dialogueState = diag.GetNextLine();
     }
 
     public void CompleteDialogue()
     {
-        setCity();
-
+        if (dialogueState >= 0)
+            setupCityDialogue(dialogueState);
+        else
+        {
+            setCity();
+        }
         //TODO continue;
     }
 

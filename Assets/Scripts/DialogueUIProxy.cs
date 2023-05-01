@@ -6,17 +6,16 @@ using TMPro;
 
 public class DialogueUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
 {
+    public SpriteRenderer img;
     public TextMeshProUGUI nameBox;
     public TextMeshProUGUI textBox;
 
     //TODO put text animation here
-    public void SetDialogueName(string text)
+    public void SetDialogue(Dialogue.Line text)
     {
-        nameBox.SetText(text);
-    }
-    public void SetDialogueText(string text)
-    {
-        textBox.SetText(text);
+        nameBox.SetText(text.speaker);
+        textBox.SetText(text.text);
+        img.sprite = text.speakerImg;
     }
 
     public void onClick(GameObject obj)

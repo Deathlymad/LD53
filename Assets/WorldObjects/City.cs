@@ -7,12 +7,12 @@ public class City : ScriptableObject
 {
     public string cityName;
     public List<Artifact> items;
-    public List<string> greetingFluff;
+    public List<Dialogue> greetingFluff;
     
-    public string GetRandomGreeting()
+    public Dialogue GetRandomDialogue()
     {
         if (greetingFluff.Count == 0)
-            return "";
+            return null;
 
         return greetingFluff[UnityEngine.Random.Range(0, greetingFluff.Count)];
     }
