@@ -737,41 +737,43 @@ public class MapHandler : MonoBehaviour
         //TODO: make variable
         for (int i = 0; i < 5; i++)
         {
-            int val = UnityEngine.Random.Range(0, width);
+            int val = UnityEngine.Random.Range(0, 5);
             pushRow(val, false);
             pushRow(val, true);
             pushColumn(val, false);
             pushColumn(val, true);
+            guaranteeSolvability();
         }
-        guaranteeSolvability();
     }
 
     // Update is called once per frame
     void Update()
     {
         intervalCount += Time.deltaTime;
-        if (intervalCount >= shiftInterval)
+        Debug.Log((intervalCount, shiftInterval));
+        if (intervalCount >= shiftInterval && false)
         {
             intervalCount -= shiftInterval;
             Vector3 pos = player.position;
-            int x = (int)Math.Round(pos.x);
-            int y = (int)Math.Round(pos.z);
-            if (x < width / 2)
+            int X = (int)(Math.Round(pos.x));
+            int Y = (int)(Math.Round(pos.z));
+            if (X < width / 2)
             {
-                pushRow(UnityEngine.Random.Range(0, height), true);
+                pushRow(UnityEngine.Random.Range(0, height - 1), true);
             }
-            if (x > width / 2)
+            if (X > width / 2)
             {
-                pushRow(UnityEngine.Random.Range(0, height), false);
+                pushRow(UnityEngine.Random.Range(0, height - 1), false);
             }
-            if (y < height / 2)
+            if (Y < height / 2)
             {
-                pushColumn(UnityEngine.Random.Range(0, width), true);
+                pushColumn(UnityEngine.Random.Range(0, width - 1), true);
             }
-            if (y > height / 2)
+            if (Y > height / 2)
             {
-                pushColumn(UnityEngine.Random.Range(0, width), false);
+                pushColumn(UnityEngine.Random.Range(0, width - 1), false);
             }
+            guaranteeSolvability();
         }
     }
 

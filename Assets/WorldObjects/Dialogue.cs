@@ -16,7 +16,10 @@ public class Dialogue : ScriptableObject
 
         public int GetNextLine()
         {
-            return nextLine[UnityEngine.Random.Range(0, nextLine.Count)];
+            if (nextLine.Count == 1)
+                return nextLine[0];
+            else
+                return nextLine[UnityEngine.Random.Range(0, nextLine.Count)];
         }
     }
     public List<Line> dialogue;
