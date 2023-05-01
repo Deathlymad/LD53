@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Briedale
   m_EditorClassIdentifier: 
   cityName: Briedale
+  visited: 0
   items: []
-  greetingFluff: []
+  greetingFluff:
+  - {fileID: 11400000, guid: e5d87512e5438f8488fbac33a3d3c505, type: 2}

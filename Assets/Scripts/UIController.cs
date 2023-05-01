@@ -27,12 +27,7 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        setDialogue();
-        freeRoam.SetActive(false);
-        general.SetActive(false);
-        city.SetActive(false);
-        dialogue.SetActive(false);
-        tooltip.SetActive(false);
+        setFreeRoam();
     }
 
     void setFreeRoam()

@@ -21,10 +21,7 @@ public class ButtonProxy : MonoBehaviour
             var rectTransform = GetComponent<RectTransform>();
             float width = rectTransform.rect.width;
             float height = rectTransform.rect.height;
-            Debug.Log(transform.position.x);
-            Debug.Log(transform.position.y);
-            Debug.Log(transform.position.x + width);
-            Debug.Log(transform.position.y + height);
+
             if (mousePos.x > transform.position.x - width && mousePos.x < transform.position.x &&
                 mousePos.y > transform.position.y && mousePos.y < transform.position.y + height)
             {

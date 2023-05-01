@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.UI;
 using TMPro;
 
 public class DialogueUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
 {
-    public SpriteRenderer img;
+    public Image img;
     public TextMeshProUGUI nameBox;
     public TextMeshProUGUI textBox;
 
@@ -15,7 +16,11 @@ public class DialogueUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
     {
         nameBox.SetText(text.speaker);
         textBox.SetText(text.text);
-        img.sprite = text.speakerImg;
+        if (text.speakerImg != null)
+        {
+            Debug.Log("Tesxt");
+            img.sprite = text.speakerImg;
+        }
     }
 
     public void onClick(GameObject obj)
