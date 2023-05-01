@@ -13,16 +13,8 @@ MonoBehaviour:
   m_Name: Namont
   m_EditorClassIdentifier: 
   cityName: Namont
-  items: []
+  cityMascot: {fileID: 0}
+  visited: 0
+  acceptedArtifacts: []
   greetingFluff:
-  - You certainly took your time. Welcome to the gates of Namont. We are the city
-    of prosperity and arcane mastery and take a lot of pride in our research and
-    discoveries.
-  - The new lightbearer I see? You certainly took your time. Welcome to the gates
-    of Namont. We are the city of prosperity and arcane mastery and take a lot of
-    pride in our research and discoveries.
-  - As you might know, you carry something with you that we desire. A gift from the
-    city of Cathe.
-  - 'Yes, that is about right. Exactly what we were looking for. Thank you for your
-    service. '
-  - If you care about science and mysteries, I invite you to visit our town.
+  - {fileID: 0}
