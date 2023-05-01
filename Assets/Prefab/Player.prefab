@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 3381649588393639565}
   - component: {fileID: 5666787870678633882}
   - component: {fileID: 6475857806273851104}
+  - component: {fileID: 1013111396678699028}
   m_Layer: 0
   m_Name: Lightbearer
   m_TagString: Untagged
@@ -436,6 +437,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
   obj: {fileID: 8131087278361039363}
+--- !u!81 &1013111396678699028
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6330503524946655145}
+  m_Enabled: 1
 --- !u!1 &7387499389015412100
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,6 +706,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6008794944729818630, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6320073658587553701, guid: 9c4acd75b8a9b1f4eabe48cf682ff9f6, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
