@@ -107,7 +107,6 @@ public class MapHandler : MonoBehaviour
                 return t;
         Debug.Log(pos);
         throw new ArgumentException("Position Apparently not on map");
-        return null; //unreachable
     }
 
     private GameObject spawnTile(Vector3 pos, bool heavy = true)

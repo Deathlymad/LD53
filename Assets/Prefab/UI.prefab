@@ -3695,6 +3695,7 @@ GameObject:
   - component: {fileID: 3107798329353204101}
   - component: {fileID: 3107798329353204100}
   - component: {fileID: 3107798329353204099}
+  - component: {fileID: 8666598091297318368}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -3788,6 +3789,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8666598091297318368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3107798329353204098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e7ad68a11f66a845aa56864ce7721e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freeRoam: {fileID: 4237559081986618213}
+  general: {fileID: 2065841133293569638}
+  city: {fileID: 1805891289274940089}
+  dialogue: {fileID: 7928641388945144016}
+  tooltip: {fileID: 4890155821382191470}
 --- !u!1 &3317102498692442767
 GameObject:
   m_ObjectHideFlags: 0

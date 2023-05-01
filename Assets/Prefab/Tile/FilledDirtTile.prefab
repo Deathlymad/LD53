@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8559330896142877821}
   - component: {fileID: 3226698611999843277}
   m_Layer: 7
-  m_Name: MarkedTile
+  m_Name: FilledDirtTile
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,10 +67,28 @@ MonoBehaviour:
   decorators:
   - prefab: {fileID: 4419416605998716040, guid: c71ae954a5a23104aadebcb975a8936a, type: 3}
     weight: 7
+    passable: 0
   - prefab: {fileID: 2708915374326122636, guid: 8b33514b63d82d241a99b247af2276f7, type: 3}
     weight: 7
+    passable: 0
   - prefab: {fileID: 3049782624841083968, guid: 20763fd5c665699409c5f6720988ae0b, type: 3}
     weight: 7
+    passable: 0
+  - prefab: {fileID: 3591535620358211253, guid: 97f23168dbf6ab54b9ea5a3826a9a5e3, type: 3}
+    weight: 7
+    passable: 0
+  - prefab: {fileID: 5293227543241188786, guid: 83707c2eb92eb6243a093a32a6ae24c7, type: 3}
+    weight: 3
+    passable: 0
+  - prefab: {fileID: 8282114793732958399, guid: 2ca556b8c8169734ba9d7b93b575ee9d, type: 3}
+    weight: 1
+    passable: 0
+  - prefab: {fileID: 8969264113624304041, guid: d44f230cc6abf2c4fb566ffc65882648, type: 3}
+    weight: 2
+    passable: 1
+  - prefab: {fileID: 3133582210144973786, guid: 9bec290086e31bb4fad28fe353ec5550, type: 3}
+    weight: 1
+    passable: 0
   x: 5
   y: 5
 --- !u!1001 &3520483657537942476

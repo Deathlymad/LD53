@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "WorldObjects/City")]
 public class Artifact : ScriptableObject
 {
-    public string name;
+    public string artifactName;
     public City target;
     public List<string> descriptionFluff;
 

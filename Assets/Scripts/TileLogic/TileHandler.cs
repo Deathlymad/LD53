@@ -12,6 +12,7 @@ public class TileHandler : MonoBehaviour
     {
         public GameObject prefab;
         public float weight;
+        public bool passable;
     }
     public bool isPassable;
 
@@ -21,16 +22,17 @@ public class TileHandler : MonoBehaviour
     [Range(5,10)]
     public int x = 5, y = 5;
 
-    private float totalWeight = 0.0f;
+    private float totalPassableWeight = 0.0f;
+    private float totalImpassableWeight = 0.0f;
 
     public float GetPathWeight()
     {
         return pathWeight;
     }
 
-    private void decorate(Vector3 offset, float xScale, float yScale)
+    private void decorate(Vector3 offset, float xScale, float yScale, bool isPassable)
     {
-        float w = UnityEngine.Random.Range(0, totalWeight);
+        float w = UnityEngine.Random.Range(0, isPassable ? totalPassableWeight : totalImpassableWeight);
         w -= freeWeight;
         if (w <= 0.01f)
         {
@@ -39,6 +41,9 @@ public class TileHandler : MonoBehaviour
 
         foreach(var v in decorators)
         {
+            if (v.passable != isPassable)
+                continue;
+
             w -= v.weight;
             if (w <= 0.01f && v.prefab != null)
             {
@@ -61,21 +66,21 @@ public class TileHandler : MonoBehaviour
         float y_fac = (y + 1);
         for (float _x = 1.5f; _x < x_fac - 1; _x ++)
             for (float _z = 1.5f; _z < y_fac - 1; _z++)
-                decorate(new Vector3(_x / x_fac - 0.5f, 0.05f, _z / y_fac - 0.5f), 0.5f / x_fac, 0.5f / y_fac);
+                decorate(new Vector3(_x / x_fac - 0.5f, 0.05f, _z / y_fac - 0.5f), 0.5f / x_fac, 0.5f / y_fac, UnityEngine.Random.Range(0.0f, 1.0f) < (totalPassableWeight / (totalPassableWeight + totalImpassableWeight)));
 
         //generate Borders
         if (!isPassable)
         {
             for (float _x = 0.5f; _x < x_fac; _x++)
             {
-                decorate(new Vector3(_x / x_fac - 0.5f, 0.05f, 0.5f / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac);
-                decorate(new Vector3(_x / x_fac - 0.5f, 0.05f, (y + 0.5f) / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac);
+                decorate(new Vector3(_x / x_fac - 0.5f, 0.05f, 0.5f / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac, false);
+                decorate(new Vector3(_x / x_fac - 0.5f, 0.05f, (y + 0.5f) / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac, false);
             }
 
             for (float _z = 0.5f; _z < y_fac; _z++)
             {
-                decorate(new Vector3(0.5f / x_fac - 0.5f, 0.05f, _z / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac);
-                decorate(new Vector3((x + 0.5f) / x_fac - 0.5f, 0.05f, _z / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac);
+                decorate(new Vector3(0.5f / x_fac - 0.5f, 0.05f, _z / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac, false);
+                decorate(new Vector3((x + 0.5f) / x_fac - 0.5f, 0.05f, _z / y_fac - 0.5f), 0.5f / y_fac, 0.5f / y_fac, false);
             }
         }
     }
@@ -83,9 +88,15 @@ public class TileHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        totalWeight = freeWeight;
+        totalPassableWeight = freeWeight;
+        totalImpassableWeight = freeWeight;
         foreach (var v in decorators)
-            totalWeight += v.weight;
+        {
+            if (v.passable)
+                totalPassableWeight += v.weight;
+            else
+                totalImpassableWeight += v.weight;
+        }
 
         generateDecoration();
     }

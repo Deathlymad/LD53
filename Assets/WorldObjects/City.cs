@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "WorldObjects/City")]
 public class City : ScriptableObject
 {
-    public string name;
+    public string cityName;
     public List<int> items;
     public List<string> greetingFluff;
     

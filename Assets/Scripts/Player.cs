@@ -46,6 +46,15 @@ public class Player : MonoBehaviour
             Destroy(item);
         }
     }
+    public void OnPlaceTorch()
+    {
+        GameObject obj = Instantiate(torchPrefab);
+
+        obj.transform.parent = map.getTileFromPosition(transform.position).transform;
+        obj.transform.position = transform.position;
+        obj.transform.localScale *= 0.5f;
+        Invoke("leaveCity", 17.0f / 24.0f); //counted by frames
+    }
 
     public bool IsMovable()
     {
@@ -80,17 +89,16 @@ public class Player : MonoBehaviour
                 {
                     item.GetComponent<Item>().pickUp(this.gameObject);
                     Stop();
+                    enterCity();
                     playerAnim.SetTrigger("Interact");
                     Invoke("OnPickup", 17.0f / 24.0f); //counted by frames
                 }
                 else
                 {
-                    GameObject obj = Instantiate(torchPrefab);
-
-                    obj.transform.parent = map.getTileFromPosition(transform.position).transform;
-                    Debug.Log(transform.position);
-                    Debug.Log(obj.transform.parent.position);
-                    obj.transform.position = transform.position;
+                    Stop();
+                    enterCity();
+                    playerAnim.SetTrigger("Interact");
+                    Invoke("OnPlaceTorch", 17.0f / 24.0f); //counted by frames
                 }
             }
             
