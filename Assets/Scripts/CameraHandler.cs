@@ -11,16 +11,33 @@ public class CameraHandler : MonoBehaviour
     public float turnFactor = 0.5f;
     public float moveSpeed = 1f;
     public float rotSpeed = 20f;
+    public float shakeAmount = 0.03f;
+    public bool shaking = false;
+
+    private Vector3 cameraPosition;
     // Start is called before the first frame update
     void Start()
     {
         playerComponent = player.GetComponent<Player>();
+        cameraPosition = cameraCenter.transform.GetChild(0).localPosition;
     }
 
     void rotatePlayerToCamera()
     {
         player.transform.rotation = Quaternion.Lerp(player.transform.rotation, cameraCenter.transform.rotation, Time.deltaTime * rotSpeed * turnFactor);
 
+    }
+
+    void shakeCamera()
+    {
+        if (shaking)
+        {
+            cameraCenter.transform.GetChild(0).localPosition = cameraPosition + UnityEngine.Random.insideUnitSphere * shakeAmount;
+        }
+        else
+        {
+            cameraCenter.transform.GetChild(0).localPosition = cameraPosition;
+        }
     }
 
     // Update is called once per frame
@@ -58,9 +75,14 @@ public class CameraHandler : MonoBehaviour
                 isDown |= true;
             }
         }
+        if (Input.GetKeyUp("p"))
+        {
+            shaking = !shaking;
+        }
         if (isDown)
             playerComponent.Walk();
         else
             playerComponent.Stop();
+        shakeCamera();
     }
 }

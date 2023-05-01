@@ -699,10 +699,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6330503524946655145, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
+      propertyPath: m_Name
+      value: Lightbearer
+      objectReference: {fileID: 0}
     - target: {fileID: 7182948704021387736, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
       propertyPath: map
       value: 
       objectReference: {fileID: 651272089}
+    - target: {fileID: 7387499389015412097, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387499389210662656, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
+      propertyPath: moveSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387499389210662656, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
+      propertyPath: shakeAmount
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 7387499389210662657, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 7387499389375668668}
   - component: {fileID: 215550265841130685}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Lightbearer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -772,6 +772,8 @@ MonoBehaviour:
   turnFactor: 0.3
   moveSpeed: 0.02
   rotSpeed: 15
+  shakeAmount: 0.03
+  shaking: 0
 --- !u!1 &7387499389226426580
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,7 +784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7387499389226426583}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: CameraCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
