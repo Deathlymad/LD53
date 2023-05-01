@@ -13,20 +13,10 @@ MonoBehaviour:
   m_Name: Briedale
   m_EditorClassIdentifier: 
   cityName: Briedale
-  items: []
+  cityMascot: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
+  visited: 0
+  acceptedArtifacts: []
   greetingFluff:
-  - Oh, welcome to the gates of the city of Briedale!
-  - "For being imprisoned for two years you look quite healthy! Didn\u2019t you catch
-    a cold in the cells, Aye?"
-  - Not much of a talker, are you? What's your name?
-  - "Ohhh\u2026yeah I won\u2019t remember that anymore, people like you don\u2019t
-    last long out there"
-  - 'At least the guy before you didn''t. Got lost on his second night. Poor kid.
-    He was really young. '
-  - 'So, you are the city''s new lightbearer. I pity you! Have fun on the job though.
-    Take this torch. '
-  - ' It will light up the path before you, so you can see in the darkness of the
-    woods. '
-  - 'Anyway, you go, kid! Wanna take a toke? Aye? '
-  - 'Sibannac! Soup is ready! '
-  - Coming!
+  - {fileID: 11400000, guid: 837f557fc5653164a805f70a21748548, type: 2}
+  - {fileID: 11400000, guid: be538fca0b343154387a20d7c8533e48, type: 2}
+  - {fileID: 11400000, guid: 8ca5fc826e86bf1459527e62d8378b6d, type: 2}

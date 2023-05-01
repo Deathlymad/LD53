@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 103557e0af648794ebb1fac90779163c, type: 3}
+  m_Name: Iretua
+  m_EditorClassIdentifier: 
+  dialogue:
+  - speaker: Rhuar
+    text: 'Ah! you again! It was sooo awesome to talk to you earlier! '
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 01000000
+  - speaker: Rhuar
+    text: Do you want fish?
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 02000000
+  - speaker: Rhuar
+    text: Fresh fish?
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: 03000000
+  - speaker: Rhuar
+    text: 'It''s really, really fresh! Hm, seems like you don''t want it though.
+      Take a look in our shops instead! '
+    speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
+    nextLine: ffffffff

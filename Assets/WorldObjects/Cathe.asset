@@ -13,12 +13,9 @@ MonoBehaviour:
   m_Name: Cathe
   m_EditorClassIdentifier: 
   cityName: Cathe
-  items: []
+  cityMascot: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
+  visited: 0
+  acceptedArtifacts: []
   greetingFluff:
-  - This is the city of Cathe. We are stone masons here. Welcome.
-  - "This is the city of Cathe. We are stone masons here. Welcome. You are the new
-    lightbearer from Briedale.\u201D"
-  - Do you have the Swamp Lavender?
-  - "Thank you. This is from our town\u2019s mayor. It is a gift you  have to bring
-    back to Briedale"
-  - You can shop here in this town. Or sell. Or nothing.
+  - {fileID: 11400000, guid: 4d0033d8cd2f2b943ae800aaa871ed54, type: 2}
+  - {fileID: 11400000, guid: e33c301755b13dd49bc9693c7e3e9411, type: 2}
