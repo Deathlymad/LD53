@@ -72,6 +72,10 @@ public class MapHandler : MonoBehaviour
 
     private List<GameObject>[] topCols, botCols, rightRows, leftRows;
 
+    public float shiftInterval = 100.0f;
+    public Transform player;
+    private float intervalCount = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -745,9 +749,29 @@ public class MapHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("x")) //TODO: Test Code
+        intervalCount += Time.deltaTime;
+        if (intervalCount >= shiftInterval)
         {
-            updateMap();
+            intervalCount -= shiftInterval;
+            Vector3 pos = player.position;
+            int x = (int)Math.Round(pos.x);
+            int y = (int)Math.Round(pos.z);
+            if (x < width / 2)
+            {
+                pushRow(UnityEngine.Random.Range(0, height), true);
+            }
+            if (x > width / 2)
+            {
+                pushRow(UnityEngine.Random.Range(0, height), false);
+            }
+            if (y < height / 2)
+            {
+                pushColumn(UnityEngine.Random.Range(0, width), true);
+            }
+            if (y > height / 2)
+            {
+                pushColumn(UnityEngine.Random.Range(0, width), false);
+            }
         }
     }
 
