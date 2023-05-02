@@ -15,6 +15,7 @@ MonoBehaviour:
   cityName: Briedale
   cityMascot: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
   visited: 0
+  startArtifact: {fileID: 11400000, guid: 648ed3af24a3f5646b99531bf04b148d, type: 2}
   acceptedArtifacts: []
   greetingFluff:
   - {fileID: 11400000, guid: 837f557fc5653164a805f70a21748548, type: 2}

@@ -67,16 +67,16 @@ MonoBehaviour:
       North-East, at the edge of the woods. Mayor''s daughter is sick, needs them
       soon. Aye. '
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
-    nextLine: 0b000000
+    nextLine: 0c000000
   - speaker: Sibannac
     text: " Be careful, the forest is a real menace! They say it moves if you can\u2019t
       see it\u2026But I certainly don\u2019t just wanna throw you in, you know?"
     speakerImg: {fileID: 21300000, guid: d899e0a6234920a469d323f83f3843d1, type: 3}
-    nextLine: 0c000000
+    nextLine: 0d000000
   - speaker: Another, Grumpy and old Guard
     text: Sibannac! Soup is ready!
     speakerImg: {fileID: 21300000, guid: 82b72fae527eb404ab3fa9e7adf16311, type: 3}
-    nextLine: 0d000000
+    nextLine: 0e000000
   - speaker: Sibannac
     text: Coming! Hopefully we see each other again, new one.... Marius? Was that
       your name? Anyway, Bye! A hot Soup is waiting for me...

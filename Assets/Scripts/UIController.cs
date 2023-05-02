@@ -89,9 +89,12 @@ public class UIController : MonoBehaviour
         currentCity = city;
         cityProvider = currentCity.GetComponent<MissionProvider>();
         setDialogue();
-
         if (currentCity != null)
         {
+            if (!cityProvider.selfCity.visited)
+                currentCity.GetComponent<Inventory>().SetItem(0, cityProvider.selfCity.startArtifact);
+
+
             currentDialogue = cityProvider.selfCity.GetRandomDialogue();
             if (currentDialogue != null)
                 setupCityDialogue(0);
@@ -107,11 +110,13 @@ public class UIController : MonoBehaviour
 
     public void CompleteDialogue()
     {
+        Debug.Log(dialogueState);
         if (dialogueState >= 0)
             setupCityDialogue(dialogueState);
         else
         {
             setCity();
+            cityProvider.selfCity.visited = true;
         }
     }
 
@@ -129,13 +134,16 @@ public class UIController : MonoBehaviour
             if (p)
             {
                 //Player to City
+                Debug.Log(id);
                 Artifact a = player.GetComponent<Inventory>().items[id];
+                if (a == null)
+                    return;
                 player.GetComponent<Inventory>().items[id] = null;
                 bool hasTransferred = false;
                 for (int i = 0; i < currentCity.GetComponent<Inventory>().items.Length; i++)
                     if (currentCity.GetComponent<Inventory>().items[i] == null)
                     {
-                        currentCity.GetComponent<Inventory>().items[i] = a;
+                        currentCity.GetComponent<Inventory>().SetItem(i, a);
                         hasTransferred = true;
                         break;
                     }
@@ -155,19 +163,22 @@ public class UIController : MonoBehaviour
                 }
                 else
                 {
-                    player.GetComponent<Inventory>().items[id] = a;
+                    player.GetComponent<Inventory>().SetItem(id, a);
                 }
             }
             else
             {
                 //City to Player
+                Debug.Log(id);
                 Artifact a = currentCity.GetComponent<Inventory>().items[id];
+                if (a == null)
+                    return;
                 currentCity.GetComponent<Inventory>().items[id] = null;
                 bool hasTransferred = false;
                 for (int i = 0; i < player.GetComponent<Inventory>().items.Length; i++)
                     if (player.GetComponent<Inventory>().items[i] == null)
                     {
-                        player.GetComponent<Inventory>().items[i] = a;
+                        player.GetComponent<Inventory>().SetItem(i, a);
                         hasTransferred = true;
                         break;
                     }
@@ -180,7 +191,7 @@ public class UIController : MonoBehaviour
                 }
                 else
                 {
-                    currentCity.GetComponent<Inventory>().items[id] = a;
+                    currentCity.GetComponent<Inventory>().SetItem(id, a);
                 }
             }
         }

@@ -8,6 +8,7 @@ public class City : ScriptableObject
     public string cityName;
     public Sprite cityMascot;
     public bool visited = false;
+    public Artifact startArtifact;
     public List<Artifact> acceptedArtifacts;
     public List<Dialogue> greetingFluff;
     

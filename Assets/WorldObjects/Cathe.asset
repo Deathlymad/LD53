@@ -15,6 +15,7 @@ MonoBehaviour:
   cityName: Cathe
   cityMascot: {fileID: 21300000, guid: fd8e37448f315b94d90f4fae1ae6a6e5, type: 3}
   visited: 0
+  startArtifact: {fileID: 11400000, guid: 2c22a5a16db92d645b9cb2e8c89fa1d4, type: 2}
   acceptedArtifacts: []
   greetingFluff:
   - {fileID: 11400000, guid: 4d0033d8cd2f2b943ae800aaa871ed54, type: 2}

@@ -34,6 +34,18 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined; //unlock mouse
         uiController.OnCityEnter(city);
 
+        int j = -1;
+        for (int i = 0; i < GetComponent<Inventory>().items.Length; i++)
+        {
+            if (GetComponent<Inventory>().items[i] == null)
+                continue;
+            if (GetComponent<Inventory>().items[i].target.name == city.GetComponent<MissionProvider>().selfCity.name)
+                j = i;
+        }
+        if (j >= 0)
+        {
+            GetComponent<Inventory>().items[j] = null;
+        }
 
         bearer.obj.torches = 9;
         uiController.setTorchCount(bearer.obj.torches);

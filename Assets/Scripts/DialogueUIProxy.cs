@@ -18,7 +18,6 @@ public class DialogueUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
         textBox.SetText(text.text);
         if (text.speakerImg != null)
         {
-            Debug.Log("Tesxt");
             img.sprite = text.speakerImg;
         }
     }

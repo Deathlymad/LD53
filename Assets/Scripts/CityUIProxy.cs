@@ -63,17 +63,19 @@ public class CityUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
         int id = -1;
         foreach (Slot s in artifactSlots)
         {
-            if (s.SlotObj == obj)
+            if (s.SlotObj.gameObject == obj)
                 id = s.id;
         }
 
         foreach (Slot s in itemSlots)
         {
-            if (s.SlotObj == obj)
+            if (s.SlotObj.gameObject == obj)
                 id = s.id;
         }
-
-        controller.handleInventoryClick(id, false);
+        if (id != -1)
+            controller.handleInventoryClick(id, false);
+        else
+            Debug.Log(id);
     }
 
     // Update is called once per frame

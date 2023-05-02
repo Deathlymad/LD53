@@ -22,8 +22,8 @@ public class ButtonProxy : MonoBehaviour
             float width = rectTransform.rect.width;
             float height = rectTransform.rect.height;
 
-            if (mousePos.x > transform.position.x - width && mousePos.x < transform.position.x &&
-                mousePos.y > transform.position.y && mousePos.y < transform.position.y + height)
+            if (mousePos.x > transform.position.x - width / 2 && mousePos.x < transform.position.x + width / 2 &&
+                mousePos.y > transform.position.y - height / 2 && mousePos.y < transform.position.y + height / 2)
             {
                 handler.GetComponent<IClickHandler>().onClick(this.gameObject);
             }

@@ -20,6 +20,11 @@ public class Inventory : MonoBehaviour
         items = new Artifact[itemSize];
     }
 
+    public void SetItem(int id, Artifact art)
+    {
+        items[id] = art;
+    }
+
     // Update is called once per frame
     void Update()
     {

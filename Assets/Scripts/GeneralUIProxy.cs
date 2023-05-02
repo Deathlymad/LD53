@@ -70,7 +70,7 @@ public class GeneralUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
         int id = -1;
         foreach (Slot s in artifactSlots)
         {
-            if (s.SlotObj == obj)
+            if (s.SlotObj.gameObject == obj)
             {
                 id = s.id;
                 break;
@@ -79,7 +79,7 @@ public class GeneralUIProxy : MonoBehaviour, ButtonProxy.IClickHandler
 
         foreach (Slot s in itemSlots)
         {
-            if (s.SlotObj == obj)
+            if (s.SlotObj.gameObject == obj)
             {
                 id = s.id;
                 break;

@@ -110,7 +110,7 @@ public class MapHandler : MonoBehaviour
         foreach (var t in leftRows[(int)Math.Ceiling(pos.z)])
             if (Math.Abs(t.GetComponent<MoveToTarget>().target.x - Math.Ceiling(pos.x)) < 0.01f)
                 return t;
-        Debug.Log(pos);
+
         throw new ArgumentException("Position Apparently not on map");
     }
 
@@ -750,7 +750,6 @@ public class MapHandler : MonoBehaviour
     void Update()
     {
         intervalCount += Time.deltaTime;
-        Debug.Log((intervalCount, shiftInterval));
         if (intervalCount >= shiftInterval && false)
         {
             intervalCount -= shiftInterval;
