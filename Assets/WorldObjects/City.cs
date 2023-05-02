@@ -12,6 +12,11 @@ public class City : ScriptableObject
     public List<Artifact> acceptedArtifacts;
     public List<Dialogue> greetingFluff;
     
+    public void init()
+    {
+        visited = false;
+    }
+
     public Dialogue GetRandomDialogue()
     {
         if (greetingFluff.Count == 0)

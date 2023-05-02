@@ -19,6 +19,12 @@ public class CityBehavior : MonoBehaviour
         
     }
 
+    public void SetCity(City city)
+    {
+        data = city;
+        data.init();
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         anim.ResetTrigger("IsNotNear");

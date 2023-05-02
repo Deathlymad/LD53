@@ -94,6 +94,7 @@ public class MapHandler : MonoBehaviour
             rightRows[i] = new List<GameObject>();
             leftRows[i] = new List<GameObject>();
         }
+        intervalCount = 0.0f;
         generateMap();
     }
     
@@ -131,41 +132,44 @@ public class MapHandler : MonoBehaviour
         city.transform.parent = transform;
         city.transform.Rotate(0, 180, 0);
         city.transform.position = new Vector3(0.5f, 0, 0.5f);
-        city.GetComponent<CityBehavior>().data = CityData[0];
+        city.GetComponent<CityBehavior>().SetCity(CityData[0]);
         city.GetComponent<MissionProvider>().selfCity = CityData[0];
         //bottom right city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
         city.transform.position = new Vector3(width - 1.5f, 0, 0.5f);
         city.transform.Rotate(0, 90, 0);
-        city.GetComponent<CityBehavior>().data = CityData[1];
+        city.GetComponent<CityBehavior>().SetCity(CityData[1]);
         city.GetComponent<MissionProvider>().selfCity = CityData[1];
         //top left city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
         city.transform.position = new Vector3(0.5f, 0, height - 1.5f);
         city.transform.Rotate(0, -90, 0);
-        city.GetComponent<CityBehavior>().data = CityData[2];
+        city.GetComponent<CityBehavior>().SetCity(CityData[2]);
         city.GetComponent<MissionProvider>().selfCity = CityData[2];
         //top right city
         city = Instantiate(CityObject);
         city.transform.parent = transform;
         city.transform.position = new Vector3(width - 1.5f, 0, height - 1.5f);
-        city.GetComponent<CityBehavior>().data = CityData[3];
+        city.GetComponent<CityBehavior>().SetCity(CityData[3]);
         city.GetComponent<MissionProvider>().selfCity = CityData[3];
     }
     private void generateTiles()
     {
+        var modX = width % 2;
+        var modY = height % 2;
+
         for (int x = 0; x < 2; x++)
             for (int y = 2; y < height - 2; y++)
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (y >= height / 2)
+                if (y >= (height - modY) / 2)
                 {
                     topCols[x].Add(tile);
                 }
-                if (y <= height / 2)
+                if (y < ((float)height) / 2.0f)
                 {
                     botCols[x].Add(tile);
                 }
@@ -176,11 +180,11 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (y >= height / 2)
+                if (y >= (height - modY) / 2)
                 {
                     topCols[x].Add(tile);
                 }
-                if (y <= height / 2)
+                if (y < ((float)height) / 2.0f)
                 {
                     botCols[x].Add(tile);
                 }
@@ -191,11 +195,11 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (x >= width / 2)
+                if (x >= (width - modX) / 2)
                 {
                     rightRows[y].Add(tile);
                 }
-                if (x <= width / 2)
+                if (x < ((float)width) / 2.0f)
                 {
                     leftRows[y].Add(tile);
                 }
@@ -206,11 +210,11 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (x >= width / 2)
+                if (x >= (width - modX) / 2)
                 {
                     rightRows[y].Add(tile);
                 }
-                if (x <= width / 2)
+                if (x < ((float)width) / 2.0f)
                 {
                     leftRows[y].Add(tile);
                 }
@@ -221,19 +225,19 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (x >= width / 2)
+                if (x >= (width - modX) / 2)
                 {
                     rightRows[y].Add(tile);
                 }
-                if (x <= width / 2)
+                if (x < ((float)width) / 2.0f)
                 {
                     leftRows[y].Add(tile);
                 }
-                if (y >= height / 2)
+                if (y >= (height - modY) / 2)
                 {
                     topCols[x].Add(tile);
                 }
-                if (y <= height / 2)
+                if (y < ((float)height) / 2.0f)
                 {
                     botCols[x].Add(tile);
                 }
@@ -246,8 +250,8 @@ public class MapHandler : MonoBehaviour
         }
         for (int i = 0; i < height; i++)
         {
-            leftRows[i].Sort(csrt);
-            rightRows[i].Sort(csrt);
+            leftRows[i].Sort(rsrt);
+            rightRows[i].Sort(rsrt);
         }
     }
 
@@ -261,11 +265,12 @@ public class MapHandler : MonoBehaviour
     //TODO take advantage of sorting
     private void pushRow(int idx, bool right = true)
     {
+        List<GameObject> lst;
         if (right)
         {
             //Step 1 update position, delete improper references
             int toDelete = -1;
-            ref var lst = ref rightRows[idx];
+            lst = rightRows[idx];
             for (int i = 0; i < lst.Count; i++)
             {
                 var cpn = lst[i].GetComponent<MoveToTarget>();
@@ -291,25 +296,12 @@ public class MapHandler : MonoBehaviour
             //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3((float)Math.Ceiling((width + 1) / 2.0), 0, idx));
             lst.Add(tile);
-            //Step 3 re add all objects to rows
-            for (int i = 0; i < lst.Count; i++)
-            {
-                var cpn = lst[i].GetComponent<MoveToTarget>();
-                if (idx >= height / 2)
-                {
-                    topCols[(int)cpn.target.x].Add(lst[i]);
-                }
-                if (idx <= height / 2)
-                {
-                    botCols[(int)cpn.target.x].Add(lst[i]);
-                }
-            }
         }
         else
         {
             //Step 1 update position, delete improper references
             int toDelete = -1;
-            ref var lst = ref leftRows[idx];
+            lst = leftRows[idx];
             for (int i = 0; i < lst.Count; i++)
             {
                 var cpn = lst[i].GetComponent<MoveToTarget>();
@@ -335,29 +327,32 @@ public class MapHandler : MonoBehaviour
             //Step 2 add new Object
             GameObject tile = spawnTile(new Vector3((float)Math.Floor((width - 1) / 2.0), 0, idx));
             lst.Add(tile);
-            //Step 3 re add all objects to rows
-            for (int i = 0; i < lst.Count; i++)
+        }
+        //Step 3 re add all objects to rows
+        for (int i = 0; i < lst.Count; i++)
+        {
+            var cpn = lst[i].GetComponent<MoveToTarget>();
+            if (idx >= height / 2)
             {
-                var cpn = lst[i].GetComponent<MoveToTarget>();
-                if (idx >= height / 2)
-                {
-                    topCols[(int)cpn.target.x].Add(lst[i]);
-                }
-                if (idx <= height / 2)
-                {
-                    botCols[(int)cpn.target.x].Add(lst[i]);
-                }
+                topCols[(int)cpn.target.x].Add(lst[i]);
+            }
+            if (idx <= height / 2)
+            {
+                botCols[(int)cpn.target.x].Add(lst[i]);
             }
         }
     }
     private void pushColumn(int idx, bool up = true)
     {
+        List<GameObject> lst;
         if (up)
         {
             //Step 1 update position, delete improper references
             int toDelete = -1;
 
-            ref var lst = ref topCols[idx];
+            lst = topCols[idx];
+
+            Debug.Log("Shifting Up");
 
             for (int i = 0; i < lst.Count; i++)
             {
@@ -374,6 +369,7 @@ public class MapHandler : MonoBehaviour
                     if (!leftRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
+                Debug.Log(cpn.target);
                 //Step 1.2 Update Position
                 cpn.target += Vector3.forward;
                 //Step 1.3 Remove out of Range Tile
@@ -385,26 +381,12 @@ public class MapHandler : MonoBehaviour
             Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
-            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Ceiling(height / 2.0 + 1))); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
+            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Ceiling((height - (height % 2)) / 2.0))); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
             lst.Add(tile);
-            //Step 3 re add all objects to rows
-            for (int i = 0; i < lst.Count; i++)
-            {
-                var cpn = lst[i].GetComponent<MoveToTarget>();
-
-                if (idx >= width / 2.0f)
-                {
-                    rightRows[(int)cpn.target.z].Add(lst[i]);
-                }
-                if (idx <= width / 2.0f)
-                {
-                    leftRows[(int)cpn.target.z].Add(lst[i]);
-                }
-            }
         }
         else
         {
-            ref var lst = ref botCols[idx];
+            lst = botCols[idx];
             //Step 1 update position, delete improper references
             int toDelete = -1;
             for (int i = 0; i < lst.Count; i++)
@@ -432,20 +414,20 @@ public class MapHandler : MonoBehaviour
             Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
-            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Floor(height / 2.0 - 1))); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
+            GameObject tile = spawnTile(new Vector3(idx, 0, (float)Math.Ceiling(height / 2.0) - 1)); //This floor calculation for some reason breaks when switiching beween updating a single or multiple columns. no clue why
             lst.Add(tile);
-            //Step 3 re add all objects to rows
-            for (int i = 0; i < lst.Count; i++)
+        }
+        //Step 3 re add all objects to rows
+        for (int i = 0; i < lst.Count; i++)
+        {
+            var cpn = lst[i].GetComponent<MoveToTarget>();
+            if (idx >= width / 2.0f)
             {
-                var cpn = lst[i].GetComponent<MoveToTarget>();
-                if (idx >= width / 2.0f)
-                {
-                    rightRows[(int)cpn.target.z].Add(lst[i]);
-                }
-                if (idx <= width / 2.0f)
-                {
-                    leftRows[(int)cpn.target.z].Add(lst[i]);
-                }
+                rightRows[(int)cpn.target.z].Add(lst[i]);
+            }
+            if (idx <= width / 2.0f)
+            {
+                leftRows[(int)cpn.target.z].Add(lst[i]);
             }
         }
     }
@@ -735,43 +717,42 @@ public class MapHandler : MonoBehaviour
     public void updateMap()
     {
         //TODO: make variable
-        for (int i = 0; i < 5; i++)
+        int val = UnityEngine.Random.Range(0, 5);
+        switch (UnityEngine.Random.Range(0, 4))
         {
-            int val = UnityEngine.Random.Range(0, 5);
-            pushRow(val, false);
-            pushRow(val, true);
-            pushColumn(val, false);
-            pushColumn(val, true);
-            guaranteeSolvability();
+            case 0:
+                pushRow(val, false);
+                break;
+            case 1:
+                pushRow(val, true);
+                break;
+            case 2:
+                pushColumn(val, false);
+                break;
+            case 3:
+                pushColumn(val, true);
+                break;
         }
+        guaranteeSolvability();
     }
 
     // Update is called once per frame
     void Update()
     {
         intervalCount += Time.deltaTime;
-        if (intervalCount >= shiftInterval && false)
+        if (intervalCount >= shiftInterval)
         {
             intervalCount -= shiftInterval;
             Vector3 pos = player.position;
             int X = (int)(Math.Round(pos.x));
             int Y = (int)(Math.Round(pos.z));
-            if (X < width / 2)
+
+            for (int i = 0; i < 5; i++)
             {
-                pushRow(UnityEngine.Random.Range(0, height - 1), true);
+                pushRow(UnityEngine.Random.Range(0, height - 1), X < width / 2);
+                pushColumn(UnityEngine.Random.Range(0, width - 1), Y < height / 2);
             }
-            if (X > width / 2)
-            {
-                pushRow(UnityEngine.Random.Range(0, height - 1), false);
-            }
-            if (Y < height / 2)
-            {
-                pushColumn(UnityEngine.Random.Range(0, width - 1), true);
-            }
-            if (Y > height / 2)
-            {
-                pushColumn(UnityEngine.Random.Range(0, width - 1), false);
-            }
+
             guaranteeSolvability();
         }
     }
