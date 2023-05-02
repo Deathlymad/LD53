@@ -36,7 +36,7 @@ public class MapHandler : MonoBehaviour
             return (int)(100 * f - other.f);
         }
     }
-    private class NavNode : IComparable<NavNode>
+    private class NavNode
     {
         public NavNode(int n, float f, NavNode p = null)
         {
@@ -54,10 +54,6 @@ public class MapHandler : MonoBehaviour
         public float f;
         public List<int> pred;
 
-        public int CompareTo(NavNode other)
-        {
-            return (int)(100 * f - other.f);
-        }
     }
     private ColSort csrt = new ColSort();
     private RowSort rsrt = new RowSort();
@@ -100,7 +96,7 @@ public class MapHandler : MonoBehaviour
     
     public GameObject getTileFromPosition(Vector3 pos)
     {
-        if (pos.x >= width / 2.0f)
+        if (isRightRow(pos.x))
         {
             rightRows[(int)Math.Ceiling(pos.z)].Sort(rsrt);
             foreach ( var t in rightRows[(int)Math.Ceiling(pos.z)])
@@ -123,6 +119,31 @@ public class MapHandler : MonoBehaviour
 
         tile.GetComponent<MoveToTarget>().target = pos;
         return tile;
+    }
+
+    private bool isLeftRow(float x)
+    {
+        var modX = width % 2;
+        var cutoff = ((float)width) / 2.0f;
+        return x < cutoff;
+    }
+    private bool isRightRow(float x)
+    {
+        var modX = width % 2;
+        var cutoff = (width - modX) / 2.0f;
+        return x >= cutoff;
+    }
+    private bool isTopCol(float z)
+    {
+        var modY = height % 2;
+        var cutoff = (height - modY) / 2.0f;
+        return z >= cutoff;
+    }
+    private bool isBotCol(float z)
+    {
+        var modY = height % 2;
+        var cutoff = ((float)height) / 2.0f;
+        return z < cutoff;
     }
 
     private void spawnCities()
@@ -157,19 +178,16 @@ public class MapHandler : MonoBehaviour
     }
     private void generateTiles()
     {
-        var modX = width % 2;
-        var modY = height % 2;
-
         for (int x = 0; x < 2; x++)
             for (int y = 2; y < height - 2; y++)
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (y >= (height - modY) / 2)
+                if (isTopCol(y))
                 {
                     topCols[x].Add(tile);
                 }
-                if (y < ((float)height) / 2.0f)
+                if (isBotCol(y))
                 {
                     botCols[x].Add(tile);
                 }
@@ -180,11 +198,11 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (y >= (height - modY) / 2)
+                if (isTopCol(y))
                 {
                     topCols[x].Add(tile);
                 }
-                if (y < ((float)height) / 2.0f)
+                if (isBotCol(y))
                 {
                     botCols[x].Add(tile);
                 }
@@ -195,11 +213,11 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (x >= (width - modX) / 2)
+                if (isRightRow(x))
                 {
                     rightRows[y].Add(tile);
                 }
-                if (x < ((float)width) / 2.0f)
+                if (isLeftRow(x))
                 {
                     leftRows[y].Add(tile);
                 }
@@ -210,11 +228,11 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (x >= (width - modX) / 2)
+                if (isRightRow(x))
                 {
                     rightRows[y].Add(tile);
                 }
-                if (x < ((float)width) / 2.0f)
+                if (isLeftRow(x))
                 {
                     leftRows[y].Add(tile);
                 }
@@ -225,19 +243,19 @@ public class MapHandler : MonoBehaviour
             {
                 GameObject tile = spawnTile(new Vector3(x, 0, y));
 
-                if (x >= (width - modX) / 2)
+                if (isRightRow(x))
                 {
                     rightRows[y].Add(tile);
                 }
-                if (x < ((float)width) / 2.0f)
+                if (isLeftRow(x))
                 {
                     leftRows[y].Add(tile);
                 }
-                if (y >= (height - modY) / 2)
+                if (isTopCol(y))
                 {
                     topCols[x].Add(tile);
                 }
-                if (y < ((float)height) / 2.0f)
+                if (isBotCol(y))
                 {
                     botCols[x].Add(tile);
                 }
@@ -275,11 +293,11 @@ public class MapHandler : MonoBehaviour
             {
                 var cpn = lst[i].GetComponent<MoveToTarget>();
                 //Step 1.1 remove all entities operated on
-                if (idx >= height / 2)
+                if (isTopCol(idx))
                 {
                     topCols[(int)cpn.target.x].Remove(lst[i]);
                 }
-                if (idx <= height / 2)
+                if (isBotCol(idx))
                 {
                     botCols[(int)cpn.target.x].Remove(lst[i]);
                 }
@@ -294,7 +312,7 @@ public class MapHandler : MonoBehaviour
             Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
-            GameObject tile = spawnTile(new Vector3((float)Math.Ceiling((width + 1) / 2.0), 0, idx));
+            GameObject tile = spawnTile(new Vector3((float)Math.Ceiling((double)width - (width % 2)) / 2.0f, 0, idx));
             lst.Add(tile);
         }
         else
@@ -306,11 +324,11 @@ public class MapHandler : MonoBehaviour
             {
                 var cpn = lst[i].GetComponent<MoveToTarget>();
                 //Step 1.1 remove all entities operated on
-                if (idx >= height / 2)
+                if (isTopCol(idx))
                 {
                     topCols[(int)cpn.target.x].Remove(lst[i]);
                 }
-                if (idx <= height / 2)
+                if (isBotCol(idx))
                 {
                     botCols[(int)cpn.target.x].Remove(lst[i]);
                 }
@@ -325,22 +343,23 @@ public class MapHandler : MonoBehaviour
             Destroy(lst[toDelete]);
             lst.RemoveAt(toDelete);
             //Step 2 add new Object
-            GameObject tile = spawnTile(new Vector3((float)Math.Floor((width - 1) / 2.0), 0, idx));
+            GameObject tile = spawnTile(new Vector3((float)Math.Ceiling(width / 2.0) - 1, 0, idx));
             lst.Add(tile);
         }
         //Step 3 re add all objects to rows
         for (int i = 0; i < lst.Count; i++)
         {
             var cpn = lst[i].GetComponent<MoveToTarget>();
-            if (idx >= height / 2)
+            if (isTopCol(idx))
             {
                 topCols[(int)cpn.target.x].Add(lst[i]);
             }
-            if (idx <= height / 2)
+            if (isBotCol(idx))
             {
                 botCols[(int)cpn.target.x].Add(lst[i]);
             }
         }
+
     }
     private void pushColumn(int idx, bool up = true)
     {
@@ -351,25 +370,21 @@ public class MapHandler : MonoBehaviour
             int toDelete = -1;
 
             lst = topCols[idx];
-
-            Debug.Log("Shifting Up");
-
             for (int i = 0; i < lst.Count; i++)
             {
                 var cpn = lst[i].GetComponent<MoveToTarget>();
 
                 //Step 1.1 remove all entities operated on
-                if (idx >= width / 2)
+                if (idx >= (width - (width % 2)) / 2)
                 {
                     if (!rightRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
-                if (idx <= width / 2)
+                if (idx < ((float)width) / 2.0f)
                 {
                     if (!leftRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
-                Debug.Log(cpn.target);
                 //Step 1.2 Update Position
                 cpn.target += Vector3.forward;
                 //Step 1.3 Remove out of Range Tile
@@ -393,12 +408,12 @@ public class MapHandler : MonoBehaviour
             {
                 var cpn = lst[i].GetComponent<MoveToTarget>();
                 //Step 1.1 remove all entities operated on
-                if (idx >= width / 2)
+                if (idx >= (width - (width % 2)) / 2)
                 {
                     if (!rightRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
                 }
-                if (idx <= width / 2)
+                if (idx < ((float)width) / 2.0f)
                 {
                     if (!leftRows[(int)cpn.target.z].Remove(lst[i]))
                         throw new IndexOutOfRangeException("Bad computation when updating references");
@@ -421,11 +436,11 @@ public class MapHandler : MonoBehaviour
         for (int i = 0; i < lst.Count; i++)
         {
             var cpn = lst[i].GetComponent<MoveToTarget>();
-            if (idx >= width / 2.0f)
+            if (idx >= (width - (width % 2)) / 2)
             {
                 rightRows[(int)cpn.target.z].Add(lst[i]);
             }
-            if (idx <= width / 2.0f)
+            if (idx < ((float)width) / 2.0f)
             {
                 leftRows[(int)cpn.target.z].Add(lst[i]);
             }
@@ -440,84 +455,88 @@ public class MapHandler : MonoBehaviour
     private int[] AStar(List<Edge> edges, int[] g)
     {
         int root = 0;
-        root += UnityEngine.Random.Range(2, width - 2) * height + UnityEngine.Random.Range(2, height - 2);
-
-        HashSet<int> closedList = new HashSet<int>();
-        List<NavNode> openList = new List<NavNode>();
-        openList.Add(new NavNode(root, 0.0f, null));
-
-        List<int> goals = new List<int>();
-        goals.AddRange(g);
+        root += 9 * height + 11;
 
         List<int> res = new List<int>();
         
-
-        while (openList.Count > 0)
+        foreach (var goal in g)
         {
-            openList.Sort();
-            //compute open list
-            var node = openList[0];
-            openList.RemoveAt(0);
-            if (goals.Contains(node.node))
+            HashSet<int> closedList = new HashSet<int>();
+            List<NavNode> openList = new List<NavNode>();
+            openList.Add(new NavNode(root, 0.0f, null));
+            while (openList.Count > 0)
             {
-                goals.Remove(node.node);
-                //backtrace and build route
-                //selectedNodes.AddRange(node.pred);
-                res.AddRange(node.pred);
-                if (goals.Count <= 0)
-                    return res.ToArray();
-            }
-            closedList.Add(node.node);
-
-            //expand to new open nodes
-            foreach (var e in edges)
-            {
-                if (e.v1 == node.node && !closedList.Contains(e.v2))
+                openList.Sort((x, y) => x.f.CompareTo(y.f));
+                var node = openList[0];
+                if (node.f > 1)
                 {
-                    float wgh = e.f;
-                    if (res.Contains(e.v2))
-                        wgh -= 100.0f;//handle previous used paths here
-                    if (openList.Select(x => x.node).Contains(e.v2))
-                    {
-                        int toDelete = -1;
-                        for (int i = 0; i < openList.Count; i++)
-                        {
-                            if (openList[i].node == e.v2 && (wgh + node.f) < openList[i].f)
-                                toDelete = i;
-                        }
-                        if (toDelete > 0)
-                        {
-                            openList.RemoveAt(toDelete);
-                            openList.Insert(toDelete, new NavNode(e.v2, wgh + node.f, node));
-                        }
-                    }
-                    else
-                    {
-                        openList.Insert(openList.Count, new NavNode(e.v2, wgh + node.f, node));
-                    }
+                    var v = UnityEngine.Random.Range( 0, openList.Count);
+                    node = openList[v];
+                    openList.RemoveAt(v);
                 }
-                else if (e.v2 == node.node && !closedList.Contains(e.v1))
+                else
+                    openList.RemoveAt(0);
+
+                //compute open list
+                if (goal == node.node)
                 {
-                    float wgh = e.f;
-                    if (res.Contains(e.v1))
-                        wgh -= 100;//handle previous used paths here
-                    if (openList.Select(x => x.node).Contains(e.v1))
+                    //backtrace and build route
+                    //selectedNodes.AddRange(node.pred);
+                    res.AddRange(node.pred);
+                    break;
+                }
+                closedList.Add(node.node);
+
+                //expand to new open nodes
+                foreach (var e in edges)
+                {
+                    if (e.v1 == node.node && !closedList.Contains(e.v2))
                     {
-                        int toDelete = -1;
-                        for (int i = 0; i < openList.Count; i++)
+                        float wgh = e.f;
+                        if (res.Contains(e.v2))
+                            wgh = 0;//handle previous used paths here
+                        if (openList.Select(x => x.node).Contains(e.v2))
                         {
-                            if (openList[i].node == e.v1 && (wgh + node.f) < openList[i].f)
-                                toDelete = i;
+                            int toDelete = -1;
+                            for (int i = 0; i < openList.Count; i++)
+                            {
+                                if (openList[i].node == e.v2 && (wgh + node.f) < openList[i].f)
+                                    toDelete = i;
+                            }
+                            if (toDelete > 0)
+                            {
+                                openList.RemoveAt(toDelete);
+                                openList.Insert(toDelete, new NavNode(e.v2, wgh + node.f, node));
+                            }
                         }
-                        if (toDelete > 0)
+                        else
                         {
-                            openList.RemoveAt(toDelete);
-                            openList.Insert(toDelete, new NavNode(e.v1, wgh + node.f, node));
+                            openList.Insert(openList.Count, new NavNode(e.v2, wgh + node.f, node));
                         }
                     }
-                    else
+                    else if (e.v2 == node.node && !closedList.Contains(e.v1))
                     {
-                        openList.Insert(openList.Count, new NavNode(e.v1, wgh + node.f, node));
+                        float wgh = e.f;
+                        if (res.Contains(e.v1))
+                            wgh = 0; //handle previous used paths here
+                        if (openList.Select(x => x.node).Contains(e.v1))
+                        {
+                            int toDelete = -1;
+                            for (int i = 0; i < openList.Count; i++)
+                            {
+                                if (openList[i].node == e.v1 && (wgh + node.f) < openList[i].f)
+                                    toDelete = i;
+                            }
+                            if (toDelete > 0)
+                            {
+                                openList.RemoveAt(toDelete);
+                                openList.Insert(toDelete, new NavNode(e.v1, wgh + node.f, node));
+                            }
+                        }
+                        else
+                        {
+                            openList.Insert(openList.Count, new NavNode(e.v1, wgh + node.f, node));
+                        }
                     }
                 }
             }
@@ -538,8 +557,7 @@ public class MapHandler : MonoBehaviour
                 col.Sort(csrt);
                 for (int i = 1; i < col.Count; i++)
                 {
-                    var weight = UnityEngine.Random.Range(0.0f, 10.0f);
-                    weight += col[i - 1].GetComponent<TileHandler>().GetPathWeight();
+                    var weight = col[i - 1].GetComponent<TileHandler>().GetPathWeight();
                     weight += col[i].GetComponent<TileHandler>().GetPathWeight();
                     var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
                     var cpn = col[i].GetComponent<MoveToTarget>();
@@ -573,8 +591,7 @@ public class MapHandler : MonoBehaviour
                 col.Sort(rsrt);
                 for (int i = 1; i < col.Count; i++)
                 {
-                    var weight = UnityEngine.Random.Range(0.0f, 10.0f);
-                    weight += col[i - 1].GetComponent<TileHandler>().GetPathWeight();
+                    var weight = col[i - 1].GetComponent<TileHandler>().GetPathWeight();
                     weight += col[i].GetComponent<TileHandler>().GetPathWeight();
                     var cpn1 = col[i - 1].GetComponent<MoveToTarget>();
                     var cpn = col[i].GetComponent<MoveToTarget>();
@@ -661,7 +678,7 @@ public class MapHandler : MonoBehaviour
         for (int i = 0; i < this.transform.childCount; i++)
         {
             var child = this.transform.GetChild(i);
-            if (child.gameObject.tag == "Tile")
+            if (child.gameObject.tag == "Tile" && !child.gameObject.GetComponent<TileHandler>().isPassable)
                 if (freeFields.Contains(coordToID(child.GetComponent<MoveToTarget>().target)) || cityBorders.Contains(coordToID(child.GetComponent<MoveToTarget>().target)))
                 {
                     toDestroy.Add(i);
@@ -690,22 +707,22 @@ public class MapHandler : MonoBehaviour
                 continue;
             GameObject tile = spawnTile(child.gameObject.GetComponent<MoveToTarget>().target, false);
 
-            if (x >= width / 2)
+            if (isRightRow(x))
             {
                 rightRows[y].Remove(child.gameObject);
                 rightRows[y].Add(tile);
             }
-            if (x <= width / 2)
+            if (isLeftRow(x))
             {
                 leftRows[y].Remove(child.gameObject);
                 leftRows[y].Add(tile);
             }
-            if (y >= height / 2)
+            if (isTopCol(y))
             {
                 topCols[x].Remove(child.gameObject);
                 topCols[x].Add(tile);
             }
-            if (y <= height / 2)
+            if (isBotCol(y))
             {
                 botCols[x].Remove(child.gameObject);
                 botCols[x].Add(tile);
@@ -747,10 +764,18 @@ public class MapHandler : MonoBehaviour
             int X = (int)(Math.Round(pos.x));
             int Y = (int)(Math.Round(pos.z));
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 15; i++)
             {
-                pushRow(UnityEngine.Random.Range(0, height - 1), X < width / 2);
-                pushColumn(UnityEngine.Random.Range(0, width - 1), Y < height / 2);
+                pushRow(UnityEngine.Random.Range(0, height), X < width / 2);
+                pushColumn(UnityEngine.Random.Range(0, width), Y < height / 2);
+                if (X < width / 2)
+                    pushColumn(UnityEngine.Random.Range(0, width / 2), Y < height / 2);
+                else
+                    pushColumn(UnityEngine.Random.Range(width / 2, width), Y < height / 2);
+                if (Y < height / 2)
+                    pushRow(UnityEngine.Random.Range(0, height / 2), X < width / 2);
+                else
+                    pushRow(UnityEngine.Random.Range(height / 2, width), X < width / 2);
             }
 
             guaranteeSolvability();
@@ -759,7 +784,6 @@ public class MapHandler : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        //TODO: maybe realign so these coordinates aren't as whack anymore
         Gizmos.DrawWireCube(transform.TransformPoint(new Vector3(width / 2 - 0.5f, 1, height / 2 - 0.5f)), transform.TransformPoint(new Vector3(width, 2, height)));
         //guaranteeSolvability();
 

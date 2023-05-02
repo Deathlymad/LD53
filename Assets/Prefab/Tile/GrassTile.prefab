@@ -63,23 +63,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathWeight: 1
   isPassable: 1
-  freeWeight: 7
+  min: 0.8
+  max: 1.2
+  freeWeight: 4
   decorators:
   - prefab: {fileID: 8969264113624304041, guid: d44f230cc6abf2c4fb566ffc65882648, type: 3}
     weight: 3
     passable: 1
+    scaleFactor: 1
   - prefab: {fileID: 3133582210144973786, guid: 9bec290086e31bb4fad28fe353ec5550, type: 3}
     weight: 3
     passable: 1
+    scaleFactor: 1
   - prefab: {fileID: 5293227543241188786, guid: 83707c2eb92eb6243a093a32a6ae24c7, type: 3}
     weight: 1
     passable: 0
+    scaleFactor: 1
   - prefab: {fileID: 187849446368333865, guid: 836dc45c31bf6b64f8b1608db4b2b5b8, type: 3}
     weight: 2
     passable: 0
+    scaleFactor: 1
   - prefab: {fileID: 3591535620358211253, guid: 97f23168dbf6ab54b9ea5a3826a9a5e3, type: 3}
     weight: 1
     passable: 0
+    scaleFactor: 1
   x: 5
   y: 5
 --- !u!1001 &3787986151916857196

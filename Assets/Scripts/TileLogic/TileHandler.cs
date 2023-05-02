@@ -7,6 +7,8 @@ public class TileHandler : MonoBehaviour
 {
     public float pathWeight;
 
+    private float pathWeightOffset;
+
     [Serializable]
     public class Decorator
     {
@@ -31,7 +33,7 @@ public class TileHandler : MonoBehaviour
 
     public float GetPathWeight()
     {
-        return pathWeight;
+        return (float)Math.Max(0, pathWeight + pathWeightOffset);
     }
 
     private void decorate(Vector3 offset, float xScale, float yScale, bool isPassable)
@@ -92,6 +94,7 @@ public class TileHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pathWeightOffset = (float)UnityEngine.Random.Range(-10.0f, 10.0f);
         totalPassableWeight = freeWeight;
         totalImpassableWeight = freeWeight;
         foreach (var v in decorators)

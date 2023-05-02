@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8ab333919b2b24d9feabc64f4a8b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathWeight: 50
+  pathWeight: 1000
   isPassable: 0
   min: 1
   max: 1.4
@@ -70,15 +70,19 @@ MonoBehaviour:
   - prefab: {fileID: 4419416605998716040, guid: c71ae954a5a23104aadebcb975a8936a, type: 3}
     weight: 7
     passable: 0
+    scaleFactor: 1
   - prefab: {fileID: 2708915374326122636, guid: 8b33514b63d82d241a99b247af2276f7, type: 3}
     weight: 7
     passable: 0
+    scaleFactor: 1
   - prefab: {fileID: 3049782624841083968, guid: 20763fd5c665699409c5f6720988ae0b, type: 3}
     weight: 7
     passable: 0
+    scaleFactor: 1
   - prefab: {fileID: 3591535620358211253, guid: 97f23168dbf6ab54b9ea5a3826a9a5e3, type: 3}
     weight: 21
     passable: 0
+    scaleFactor: 1
   x: 5
   y: 5
 --- !u!1001 &3520483657537942476
