@@ -172,6 +172,7 @@ MonoBehaviour:
   thickness: 3
   width: 20
   height: 20
+  player: {fileID: 1651420111}
 --- !u!114 &515841109 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2542644117231216897, guid: cf4924bfb0d12b2459730695802eecde, type: 3}
@@ -1723,5 +1724,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7943186286455199172, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 08c567aa1ef77a64ab4a2c4e777a4f8d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec31219688b7f1c42a236e7fbc6dc1ab, type: 3}

@@ -118,6 +118,7 @@ public class MapHandler : MonoBehaviour
         tile.transform.position = pos - Vector3.up;
 
         tile.GetComponent<MoveToTarget>().target = pos;
+        tile.GetComponent<PreOcclusion>().refTransform = player;
         return tile;
     }
 

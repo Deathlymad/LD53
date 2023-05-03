@@ -8,6 +8,7 @@ public class BorderGenerator : MonoBehaviour
     public Vector3 offset = Vector3.zero;
     public int thickness = 1;
     public int width = 1, height = 1;
+    public Transform player;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class BorderGenerator : MonoBehaviour
         tile.transform.position = pos - Vector3.up;
 
         tile.GetComponent<MoveToTarget>().target = pos;
+        tile.GetComponent<PreOcclusion>().refTransform = player;
         return tile;
     }
 

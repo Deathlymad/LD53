@@ -112,7 +112,8 @@ public class TileHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        verticalOffset.enabled = (transform.position.y != 0.0f);
+        if (verticalOffset != null)
+            verticalOffset.enabled = (transform.position.y != 0.0f);
     }
 
 
