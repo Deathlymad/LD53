@@ -6,6 +6,7 @@ using UnityEngine;
 public class TileHandler : MonoBehaviour
 {
     public float pathWeight;
+    public BoxCollider verticalOffset;
 
     private float pathWeightOffset;
 
@@ -111,7 +112,7 @@ public class TileHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        verticalOffset.enabled = (transform.position.y != 0.0f);
     }
 
 
